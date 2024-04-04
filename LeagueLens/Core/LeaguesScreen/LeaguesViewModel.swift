@@ -19,15 +19,15 @@ final class LeaguesViewModel {
     
     private let services = Services()
     var leagues: [ResponseLeague] = []
+    //var selectedLeague: ResponseLeague?
 }
 
 extension LeaguesViewModel: LeaguesViewModelInterface {
     func viewDidLoad() {
-        view?.configureCollectionView()
         view?.configureLeaguesView()
         getLeagues()
     }
-    
+
     func getLeagues() {
         services.downloadLeagues { [weak self] returnedLeagues in
             guard let self = self else {
@@ -38,27 +38,18 @@ extension LeaguesViewModel: LeaguesViewModelInterface {
                 print("returnedLeagues")
                 return
             }
-            self.view?.reloadData()
             self.leagues.append(contentsOf: returnedLeagues)
+            self.view?.reloadData()
         }
     }
     
-   func getLeaguesDetail(id: Int) {
-       services.downloadLeagueDetail(id: id) { [weak self] returnDetails in
-           guard let self = self else {
-               print("getLeaguesDetail self Error")
-               return
-           }
-           guard let returnDetails = returnDetails else {
-               print("getLeaguesDetail returnDetails Error")
-               return
-           }
-           self.view?.navigationToDetailsLeague(league: returnDetails)
-           print("getLeaguesDetail' dan dönen veri \(returnDetails.league?.id)")
-
-       }
-   }
+    func leagueDidSelected(at index: IndexPath) {
+        let leagueSelectedItem = leagues[index.item] 
+        view?.navigationToDetailsLeague(league: leagueSelectedItem)
+    }
     
+ 
+   
    
 }
 

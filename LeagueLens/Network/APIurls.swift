@@ -16,14 +16,18 @@ enum APIUrls {
         ]
     }
     static func urlAllLeagues() -> String {
-        return "https://api-football-v1.p.rapidapi.com/leagues/season/2023"
+        return "https://api-football-v1.p.rapidapi.com/v3/leagues"
     }
-    
-    static func leagueDetails (id: Int) -> String {
-        return "https://api-football-v1.p.rapidapi.com/v3/leagues?id=\(id)"
-    }
-    
-    static func images(id: Int) -> String {
+        
+    static func LeaguesImages(id: Int) -> String {
         return "https://media.api-sports.io/football/leagues/\(id).png"
+    }
+    
+    static func LeagueTeams(id: Int) -> String {
+        return "https://api-football-v1.p.rapidapi.com/v3/standings?season=2023&league=\(id)"
+    }
+    
+    static func teamsImage(id: Int) -> String {
+        return "https://media.api-sports.io/football/teams/\(id).png"
     }
 }

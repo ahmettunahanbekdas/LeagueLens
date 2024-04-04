@@ -9,15 +9,32 @@ import Foundation
 
 protocol LeaguesDetailsViewModelInterface {
     var view: LeaguesDetailsViewControllerInterface? {get set}
+
+
 }
 
 final class LeaguesDetailsViewModel{
    weak var view: LeaguesDetailsViewControllerInterface?
+    private let services = Services()
+    
+    
+    var teams: [LeagueStanding] = []
 }
 
 extension LeaguesDetailsViewModel: LeaguesDetailsViewModelInterface {
     func viewDidLoad() {
         view?.configureView()
+        view?.configureLeagueImageView()
+        view?.configureUILabel()
+        view?.reloadData()
     }
+    
+    
+        
+    func getLegues() {
+        
+    }
+   
+
 }
 

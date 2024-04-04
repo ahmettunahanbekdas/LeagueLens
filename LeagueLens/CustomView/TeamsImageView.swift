@@ -1,17 +1,18 @@
 //
-//  LeaguesImageView.swift
-//  MatchMinder
+//  TeamsImageView.swift
+//  LeagueLens
 //
-//  Created by Ahmet Tunahan Bekdaş on 1.04.2024.
+//  Created by Ahmet Tunahan Bekdaş on 4.04.2024.
 //
 
+import Foundation
 import UIKit
 
-final class LeaguesImageView: UIImageView {
+final class TeamsImageView: UIImageView {
     
     private var dataTask: URLSessionDataTask?
     
-    override init(frame: CGRect) {
+    override init (frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
     }
@@ -20,14 +21,14 @@ final class LeaguesImageView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func downloadImage(league: ResponseLeague) {
-        guard let url = URL(string: APIUrls.images(id: league.league?.id ?? 0)) else {return}
-        
-        dataTask = NetworkManager.shared.download(url: url, headers: APIUrls.APIKey(), completion: { [weak self] result in
+    func downloadTeamsImage(id: Int) {
+        let headers = APIUrls.APIKey()
+        guard let url = URL(string: APIUrls.teamsImage(id: id)) else {return}
+        dataTask = NetworkManager.shared.download(url: url, headers: headers, completion: { [weak self] result in
             guard let self = self else {return}
             switch result {
             case .success(let data):
-                DispatchQueue.main.async {
+                DispatchQueue.main.sync {
                     self.image = UIImage(data: data)
                 }
             case .failure(let error):
@@ -36,4 +37,3 @@ final class LeaguesImageView: UIImageView {
         })
     }
 }
-

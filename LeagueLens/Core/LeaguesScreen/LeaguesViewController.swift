@@ -9,8 +9,6 @@ import UIKit
 
 protocol LeaguesViewControllerInterface: AnyObject {
     func configureLeaguesView()
-    func configureCollectionView() 
-
     func reloadData()
     func navigationToDetailsLeague(league: ResponseLeague)
 }
@@ -42,23 +40,19 @@ extension LeaguesViewController: LeaguesViewControllerInterface {
     
     func configureCollectionView() {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical // Dilerseniz .horizontal da kullanabilirsiniz
-        
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createHomeFlowLayout())
+        layout.scrollDirection = .vertical
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(LeaguesCollectionViewCell.self, forCellWithReuseIdentifier: LeaguesCollectionViewCell.reuseID)
         view.addSubview(collectionView)
         view.backgroundColor = .systemBackground
     }
-    
+
     func navigationToDetailsLeague(league: ResponseLeague) {
-        DispatchQueue.main.async {
-            let detailScreen = LeaguesDetailsViewController(league: league)
-            self.navigationController?.pushViewController(detailScreen, animated: true)
-        }
+        let detailVC = LeaguesDetailsViewController(league: league)
+        navigationController?.pushViewController(detailVC, animated: true)
     }
-  
 }
 
 extension LeaguesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -77,14 +71,14 @@ extension LeaguesViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // Hücre boyutunu ayarlayın, örneğin:
-        let width = collectionView.frame.width - 20 // Örnek bir genişlik, isteğinize göre ayarlayabilirsiniz
+        let width = collectionView.frame.width - 20
         let height: CGFloat = 100 // Örnek bir yükseklik, isteğinize göre ayarlayabilirsiniz
         return CGSize(width: width, height: height)
     }
-    
+   
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel.getLeaguesDetail(id: viewModel.leagues[indexPath.item].league?.id ?? 4)
-        //print(viewModel.leagues[indexPath.item].league?.name)
+        viewModel.leagueDidSelected(at: indexPath)
+        
     }
 
 }

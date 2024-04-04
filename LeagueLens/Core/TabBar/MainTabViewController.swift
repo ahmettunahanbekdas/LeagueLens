@@ -12,8 +12,6 @@ class MainTabViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let appearance = UITabBarAppearance()
-
         print("Run App")
         
         // TabBar Views atandı.
@@ -26,11 +24,8 @@ class MainTabViewController: UITabBarController {
         vc2.tabBarItem.image = UIImage(systemName: "magnifyingglass")
         vc3.tabBarItem.image = UIImage(systemName: "heart.fill")
         
-        tabBar.standardAppearance = appearance
-        tabBar.scrollEdgeAppearance = appearance
-        
-        appearance.backgroundColor = UIColor.systemBackground // for light mode
-        appearance.configureWithDefaultBackground() // for dark mode
+       //tabBar.tintColor = .label
+       //tabBar.backgroundColor = .systemGray3
         
         // TabBar Title.
         vc1.title = "Leagues"

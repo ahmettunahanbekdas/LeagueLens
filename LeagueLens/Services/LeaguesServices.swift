@@ -35,48 +35,41 @@ class Services {
         }
     }
     
-    func downloadLeagueDetail(id: Int, completion: @escaping (ResponseLeague?) -> ()) {
-        let headers = APIUrls.APIKey()
-        guard let url = URL(string: APIUrls.leagueDetails(id: id)) else {
-            print("TeamDetail Error")
-            return
-        }
-        NetworkManager.shared.download(url: url, headers: headers) { [weak self] leagueDetail in
-            guard let self = self else {return}
-            switch leagueDetail {
-            case.success(let data):
-                completion(self.handleWithLeaguDetail(data))
-               print("downloadLeagueDetail' dan dönen data boş mu \(data)")
-               print("downloadLeagueDetail\(url)")
-                print(data.base64EncodedString())
-            case .failure(let error):
-                print("HATA!")
-                self.handleWithError(error)
-            }
-        }
-    }
-    
     func handleWithLeague(_ data: Data) -> [ResponseLeague]? {
         do {
-            let leagues = try JSONDecoder().decode(Leaguess.self, from: data)
-            //print("\(leagues.response?.isEmpty)")
+            let leagues = try JSONDecoder().decode(LeaguesAPI.self, from: data)
             return leagues.response
         } catch {
             print("Error decoding leagues data: \(error)")
             return nil
         }
     }
- 
     
-   
+    func downloadLeaguesTeams(id: Int, completion: @escaping ([LeagueStanding]?) -> ()) {
+        let headers = APIUrls.APIKey()
+        guard let url = URL(string: APIUrls.LeagueTeams(id: id)) else {
+            print("Leagues Teams downloadLeaguesTeams Error")
+            completion(nil)
+            return
+        }
+        NetworkManager.shared.download(url: url, headers: headers) { [weak self] leagueTeams in
+            guard let self = self else {return}
+            switch leagueTeams {
+            case .success(let data):
+                print(url)
+                completion(self.handleWithDownloadLeaguesTeams(data))
+            case .failure(let error):
+                print("Failed to download downloadLeaguesTeams \(error)")
+            }
+        }
+    }
     
-    // Problem burada
-    func handleWithLeaguDetail(_ data: Data) -> (ResponseLeague)? {
-        do {
-            let leagueDetail = try JSONDecoder().decode(ResponseLeague.self, from: data)
-            return leagueDetail.self  
-        }catch {
-            print("Error decoding leagues data: \(error)")
+    func handleWithDownloadLeaguesTeams(_ data: Data) -> [LeagueStanding]? {
+        do{
+            let leagueTeams = try JSONDecoder().decode(TeamsAPI.self, from: data)
+            return leagueTeams.response
+        }catch{
+            print("handleWithDownloadLeaguesTeams Error")
             return nil
         }
     }

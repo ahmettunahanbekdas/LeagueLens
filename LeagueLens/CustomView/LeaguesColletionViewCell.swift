@@ -11,7 +11,7 @@ class LeaguesCollectionViewCell: UICollectionViewCell {
         return leagueImage
     }()
     
-    private let leagueNameLabel = LLTitleLabel(fonsSize: 20)
+    private let leagueNameLabel = LLTitleLabel(fontSize: 20)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,7 +25,7 @@ class LeaguesCollectionViewCell: UICollectionViewCell {
     
     func setCell(league: ResponseLeague) {
         self.league = league
-        leagueImageView.downloadImage(league: league)
+        leagueImageView.downloadLeaguesImage(league: league)
         leagueNameLabel.text = league.league?.name
     }
 
