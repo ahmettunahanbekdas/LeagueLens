@@ -16,7 +16,6 @@ final class TeamsCollectionViewCell: UICollectionViewCell {
         let teamsImage = TeamsImageView(frame: .zero)
         teamsImage.tintColor = .label
         teamsImage.contentMode = .scaleAspectFill
-        teamsImage.backgroundColor = .green
         return teamsImage
     }()
     
@@ -31,7 +30,8 @@ final class TeamsCollectionViewCell: UICollectionViewCell {
     
     func setCell(id: Int) {
         
-        teamsImageView.downloadTeamsImage(id: id)
+        teamsImageView.image = UIImage(named: "chmpleg")
+
     }
 
     private func configure() {
