@@ -8,16 +8,21 @@
 import UIKit
 
 final class TeamsCollectionViewCell: UICollectionViewCell {
-    
     static let reuseID = "TeamsCell"
     private var teams:  LeagueStanding!
     
+    private let teamNameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private let teamsImageView: TeamsImageView = {
-        let teamsImage = TeamsImageView(frame: .zero)
-        teamsImage.tintColor = .label
-        teamsImage.contentMode = .scaleAspectFill
-        teamsImage.backgroundColor = .green
-        return teamsImage
+        let imageView = TeamsImageView(frame: .zero)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        return imageView
     }()
     
     override init(frame: CGRect) {
@@ -29,24 +34,30 @@ final class TeamsCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setCell(id: Int) {
-        
-        teamsImageView.downloadTeamsImage(id: id)
+    func setCell(teamName: String, teamID: Int) {
+        teamNameLabel.text = teamName
+        teamsImageView.downloadTeamsImage(id: teamID)
     }
-
+    
     private func configure() {
         addSubview(teamsImageView)
-         
-        teamsImageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-        teamsImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 3 * 8),
-        teamsImageView.widthAnchor.constraint(equalTo: heightAnchor, multiplier: 4/5),
-        teamsImageView.heightAnchor.constraint(equalTo: teamsImageView.widthAnchor),
-        teamsImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-    ])
+        addSubview(teamNameLabel)
         
-    layer.borderColor = UIColor.secondaryLabel.cgColor
-    layer.borderWidth = 2
-    layer.cornerRadius = 20
+        NSLayoutConstraint.activate([
+            // TeamsImageView
+            teamsImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            teamsImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            teamsImageView.widthAnchor.constraint(equalToConstant: 60), // Örneğin, resmin sabit bir genişliği olduğunu varsayalım
+            teamsImageView.heightAnchor.constraint(equalTo: teamsImageView.widthAnchor),
+            
+            // TeamNameLabel
+            teamNameLabel.leadingAnchor.constraint(equalTo: teamsImageView.trailingAnchor, constant: 8),
+            teamNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            teamNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8)
+        ])
+        
+        layer.borderColor = UIColor.secondaryLabel.cgColor
+        layer.borderWidth = 2
+        layer.cornerRadius = 20
     }
 }

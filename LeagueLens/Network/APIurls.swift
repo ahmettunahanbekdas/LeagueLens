@@ -30,4 +30,10 @@ enum APIUrls {
     static func teamsImage(id: Int) -> String {
         return "https://media.api-sports.io/football/teams/\(id).png"
     }
+    
+    static func leagueImageView(leagueCode: String) -> String {
+        return "https://media.api-sports.io/flags/\(leagueCode).svg"
+    }
+    
+    
 }

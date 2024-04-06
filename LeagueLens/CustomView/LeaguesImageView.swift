@@ -13,7 +13,7 @@ final class LeaguesImageView: UIImageView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
+        //translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder: NSCoder) {

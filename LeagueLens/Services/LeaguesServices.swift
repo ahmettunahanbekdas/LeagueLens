@@ -65,15 +65,14 @@ class Services {
     }
     
     func handleWithDownloadLeaguesTeams(_ data: Data) -> [LeagueStanding]? {
-        do{
+        do {
             let leagueTeams = try JSONDecoder().decode(TeamsAPI.self, from: data)
             return leagueTeams.response
-        }catch{
-            print("handleWithDownloadLeaguesTeams Error")
+        } catch {
+            print("handleWithDownloadLeaguesTeams Error: \(error)")
             return nil
         }
     }
-    
     private func handleWithError(_ error: Error) {
         print(error.localizedDescription)
     }

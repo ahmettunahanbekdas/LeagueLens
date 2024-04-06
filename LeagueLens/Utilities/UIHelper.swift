@@ -16,9 +16,22 @@ enum UIHelper {
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: cellWidth - (2 * padding), height: cellWidth / 3)
         layout.minimumLineSpacing = 16
+        
+        return layout
+    }
+    
+    static func createTeamsFlowLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        let cellWidth = CGFloat.deviceWidth
+        let padding: CGFloat = 16
+        
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: cellWidth - (2 * padding), height: cellWidth / 3)
+        layout.minimumLineSpacing = 3
+        
 
         return layout
     }
     
-
+    
 }
