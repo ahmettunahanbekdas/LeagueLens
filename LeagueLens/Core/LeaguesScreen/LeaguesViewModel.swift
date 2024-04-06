@@ -12,7 +12,7 @@ protocol LeaguesViewModelInterface {
     var view: LeaguesViewControllerInterface? {get set}
     func viewDidLoad()
     func getLeagues()
-    func didSelectedLeaguesDetail(id: Int) 
+    func didSelectedLeaguesDetail(id: Int)
 }
 
 final class LeaguesViewModel {
@@ -20,7 +20,6 @@ final class LeaguesViewModel {
     
     private let services = Services()
     var leagues: [ResponseLeague] = []
-    //var selectedLeague: ResponseLeague?
 }
 
 extension LeaguesViewModel: LeaguesViewModelInterface {
@@ -28,7 +27,7 @@ extension LeaguesViewModel: LeaguesViewModelInterface {
         view?.configureLeaguesView()
         getLeagues()
     }
-
+    
     func getLeagues() {
         services.downloadLeagues { [weak self] returnedLeagues in
             guard let self = self else {
@@ -44,8 +43,6 @@ extension LeaguesViewModel: LeaguesViewModelInterface {
         }
     }
     
-   
-    
     func didSelectedLeaguesDetail(id: Int) {
         services.downloadLeaguesTeams(id: id) { [weak self] returnedLeagueDetail in
             guard let self = self else {
@@ -56,15 +53,9 @@ extension LeaguesViewModel: LeaguesViewModelInterface {
                 print("Failed to download league detail")
                 return
             }
-            self.view?.navigationToDetailsLeagues(leagueDetail: returnedLeagueDetail)
+             self.view?.navigationToDetailsLeagues(leagueDetail: returnedLeagueDetail)
         }
     }
-    
-    
-    
- 
-   
-   
 }
 
 

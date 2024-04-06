@@ -9,8 +9,6 @@ import Foundation
 
 protocol LeaguesDetailsViewModelInterface {
     var view: LeaguesDetailsViewControllerInterface? {get set}
-
-
 }
 
 final class LeaguesDetailsViewModel{
@@ -21,6 +19,7 @@ final class LeaguesDetailsViewModel{
 
 extension LeaguesDetailsViewModel: LeaguesDetailsViewModelInterface {
     func viewDidLoad() {
+        view?.headerView()
         view?.configureCollectionView()
         view?.reloadData()
     }

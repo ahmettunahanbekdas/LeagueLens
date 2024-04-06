@@ -28,6 +28,7 @@ enum UIHelper {
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: cellWidth - (2 * padding), height: cellWidth / 3)
         layout.minimumLineSpacing = 3
+        
 
         return layout
     }

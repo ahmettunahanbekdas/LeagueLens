@@ -12,6 +12,11 @@ struct TeamsAPI: Codable {
     let results: Int?
     let paging: PagingInfo?
     let response: [LeagueStanding]?
+    
+    enum CodingKeys: String, CodingKey {
+           case get = "get"
+           case parameters, errors, results, paging, response
+       }
 }
 
 struct StandingsParameters: Codable {
@@ -26,7 +31,6 @@ struct PagingInfo: Codable {
 
 struct LeagueStanding: Codable {
     let league: LeagueInfo?
-    let standings: [TeamStanding]?
 }
 
 struct LeagueInfo: Codable {
@@ -36,6 +40,7 @@ struct LeagueInfo: Codable {
     let logo: String?
     let flag: String?
     let season: Int?
+    let standings: [[TeamStanding]]?
 }
 
 struct TeamStanding: Codable {

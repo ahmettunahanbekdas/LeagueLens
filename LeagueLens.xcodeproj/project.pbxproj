@@ -22,6 +22,7 @@
 		0E47DF432BBE8FCC00E8384A /* TeamsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E47DF422BBE8FCC00E8384A /* TeamsCollectionViewCell.swift */; };
 		0E47DF452BBE969D00E8384A /* TeamsImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E47DF442BBE969D00E8384A /* TeamsImageView.swift */; };
 		0E9383852BBAE85200CCE228 /* CGFloat+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9383842BBAE85200CCE228 /* CGFloat+Ext.swift */; };
+		0E9AFB532BC1132C004C22C2 /* CountryFlagImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9AFB522BC1132C004C22C2 /* CountryFlagImageView.swift */; };
 		0EB069692BB85A9900470A01 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB069682BB85A9900470A01 /* NetworkManager.swift */; };
 		0EB0696C2BB8645A00470A01 /* APIurls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB0696B2BB8645A00470A01 /* APIurls.swift */; };
 		0EB0696F2BB86A1300470A01 /* LeaguesServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB0696E2BB86A1300470A01 /* LeaguesServices.swift */; };
@@ -52,6 +53,7 @@
 		0E47DF422BBE8FCC00E8384A /* TeamsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamsCollectionViewCell.swift; sourceTree = "<group>"; };
 		0E47DF442BBE969D00E8384A /* TeamsImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamsImageView.swift; sourceTree = "<group>"; };
 		0E9383842BBAE85200CCE228 /* CGFloat+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Ext.swift"; sourceTree = "<group>"; };
+		0E9AFB522BC1132C004C22C2 /* CountryFlagImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryFlagImageView.swift; sourceTree = "<group>"; };
 		0EB069682BB85A9900470A01 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		0EB0696B2BB8645A00470A01 /* APIurls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIurls.swift; sourceTree = "<group>"; };
 		0EB0696E2BB86A1300470A01 /* LeaguesServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguesServices.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				0ED37EB02BBAA3E000E3B55F /* LeaguesColletionViewCell.swift */,
 				0E47DF442BBE969D00E8384A /* TeamsImageView.swift */,
 				0E47DF422BBE8FCC00E8384A /* TeamsCollectionViewCell.swift */,
+				0E9AFB522BC1132C004C22C2 /* CountryFlagImageView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				0E3F36702BB97D9300937608 /* JSONAny.swift in Sources */,
 				0E9383852BBAE85200CCE228 /* CGFloat+Ext.swift in Sources */,
 				0E13BA692BB707A40012991D /* FavoritesViewController.swift in Sources */,
+				0E9AFB532BC1132C004C22C2 /* CountryFlagImageView.swift in Sources */,
 				0E3F36682BB962C600937608 /* LeaguesDetailsViewController.swift in Sources */,
 				0EBC4D8D2BBC4F00009752AF /* LLTitleLabel.swift in Sources */,
 				0EB0696C2BB8645A00470A01 /* APIurls.swift in Sources */,

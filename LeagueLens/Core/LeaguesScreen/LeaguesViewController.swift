@@ -10,21 +10,21 @@ import UIKit
 protocol LeaguesViewControllerInterface: AnyObject {
     func configureLeaguesView()
     func reloadData()
-    func navigationToDetailsLeagues(leagueDetail: LeagueStanding)
+    func navigationToDetailsLeagues(leagueDetail: [LeagueStanding])
 
 }
-import UIKit
 
 class LeaguesViewController: UIViewController {
     
     private let viewModel = LeaguesViewModel()
     var collectionView: UICollectionView!
+    var currentPage = 1
+       let pageSize = 20
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.view = self
         viewModel.viewDidLoad()
-        
     }
 }
 
@@ -40,7 +40,7 @@ extension LeaguesViewController: LeaguesViewControllerInterface {
     }
     
     func configureCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createHomeFlowLayout())
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createTeamsFlowLayout())
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(LeaguesCollectionViewCell.self, forCellWithReuseIdentifier: LeaguesCollectionViewCell.reuseID)
@@ -48,16 +48,12 @@ extension LeaguesViewController: LeaguesViewControllerInterface {
         view.backgroundColor = .systemBackground
     }
     
-  
-    
-    func navigationToDetailsLeagues(leagueDetail: LeagueStanding) {
+    func navigationToDetailsLeagues(leagueDetail: [LeagueStanding]) {
         DispatchQueue.main.async {
             let detailsLeague = LeaguesDetailsViewController(league: leagueDetail)
             self.navigationController?.pushViewController(detailsLeague, animated: true)
         }
     }
-    
-    
 }
 
 extension LeaguesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -81,5 +77,4 @@ extension LeaguesViewController: UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.didSelectedLeaguesDetail(id: viewModel.leagues[indexPath.item].league?.id ?? 0 )
     }
-    
 }
