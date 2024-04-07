@@ -13,7 +13,6 @@ final class LeaguesImageView: UIImageView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        //translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder: NSCoder) {
@@ -22,7 +21,7 @@ final class LeaguesImageView: UIImageView {
     
     func downloadLeaguesImage(league: ResponseLeague) {
         let headers = APIUrls.APIKey()
-        guard let url = URL(string: APIUrls.LeaguesImages(id: league.league?.id ?? 0)) else {return}
+        guard let url = URL(string: APIUrls.LeaguesImages(id: league.league!._id)) else {return}
         
         dataTask = NetworkManager.shared.download(url: url, headers: headers , completion: { [weak self] result in
             guard let self = self else {return}

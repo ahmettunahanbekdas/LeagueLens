@@ -35,5 +35,9 @@ enum APIUrls {
         return "https://media.api-sports.io/flags/\(leagueCode).svg"
     }
     
+    static func teamsDetail(id: Int) -> String {
+        return "https://api-football-v1.p.rapidapi.com/v3/teams?id=\(id)"
+    }
+    
     
 }

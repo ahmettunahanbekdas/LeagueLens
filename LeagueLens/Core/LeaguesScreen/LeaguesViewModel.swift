@@ -5,7 +5,6 @@
 //  Created by Ahmet Tunahan Bekdaş on 31.03.2024.
 //
 
-
 import Foundation
 
 protocol LeaguesViewModelInterface {
@@ -44,7 +43,7 @@ extension LeaguesViewModel: LeaguesViewModelInterface {
     }
     
     func didSelectedLeaguesDetail(id: Int) {
-        services.downloadLeaguesTeams(id: id) { [weak self] returnedLeagueDetail in
+        services.downloadLeaguesDetail(id: id) { [weak self] returnedLeagueDetail in
             guard let self = self else {
                 print("didSelectedLeaguesDetail self Error")
                 return
