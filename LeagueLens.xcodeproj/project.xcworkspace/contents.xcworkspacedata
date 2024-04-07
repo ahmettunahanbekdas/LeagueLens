@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/ahmettunahanbekdas/Documents/MatchMinderApp/MatchMinder/LeagueLens.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>

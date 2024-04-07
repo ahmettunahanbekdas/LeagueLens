@@ -11,15 +11,12 @@ protocol LeaguesViewControllerInterface: AnyObject {
     func configureLeaguesView()
     func reloadData()
     func navigationToDetailsLeagues(leagueDetail: [LeagueStanding])
-
 }
 
 class LeaguesViewController: UIViewController {
     
     private let viewModel = LeaguesViewModel()
     var collectionView: UICollectionView!
-    var currentPage = 1
-       let pageSize = 20
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +47,10 @@ extension LeaguesViewController: LeaguesViewControllerInterface {
     
     func navigationToDetailsLeagues(leagueDetail: [LeagueStanding]) {
         DispatchQueue.main.async {
+            guard !leagueDetail.isEmpty else {
+                MakeAlert.alertMassage(title: "League Detail Not Found", message: "Continue For Other Leagues", style: .alert, vc: self)
+                return
+            }
             let detailsLeague = LeaguesDetailsViewController(league: leagueDetail)
             self.navigationController?.pushViewController(detailsLeague, animated: true)
         }
@@ -69,12 +70,12 @@ extension LeaguesViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.frame.width - 20
-        let height: CGFloat = 100
+        let width = collectionView.frame.width - .deviceWidth / 20
+        let height: CGFloat = .deviceHeight / 10
         return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel.didSelectedLeaguesDetail(id: viewModel.leagues[indexPath.item].league?.id ?? 0 )
+        viewModel.didSelectedLeaguesDetail(id: viewModel.leagues[indexPath.item].league!._id )
     }
 }

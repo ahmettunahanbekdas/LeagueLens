@@ -5,7 +5,7 @@
 //  Created by Ahmet Tunahan Bekdaş on 31.03.2024.
 //
 
-struct TeamsAPI: Codable {
+struct LeagueDetailAPI: Codable {
     let get: String?
     let parameters: StandingsParameters?
     let errors: [String]?
@@ -41,6 +41,10 @@ struct LeagueInfo: Codable {
     let flag: String?
     let season: Int?
     let standings: [[TeamStanding]]?
+    
+    var _id: Int {
+        id ?? Int.min
+    }
 }
 
 struct TeamStanding: Codable {
@@ -51,7 +55,7 @@ struct TeamStanding: Codable {
     let group: String?
     let form: String?
     let status: String?
-    let description: String? // Opsiyonel olarak yapıldı
+    let description: String?
     let all: StandingDetail?
     let home: StandingDetail?
     let away: StandingDetail?
@@ -62,6 +66,10 @@ struct TeamInfo: Codable {
     let id: Int?
     let name: String?
     let logo: String?
+    
+    var _id: Int {
+        id ?? Int.min
+    }
 }
 
 struct StandingDetail: Codable {
@@ -76,43 +84,6 @@ struct GoalInfo: Codable {
     let `for`: Int?
     let against: Int?
 }
-
-
-
-/*
-import Foundation
-
-struct Team: Codable {
-    var get: String?
-    var parameters: [Parameters]?
-    var error: [JSONAny]?
-    var response: [ResponseTeam]?
-}
-
-struct ResponseTeam: Codable {
-    var team: TeamDetail?
-    var venue:Venue?
-}
-
-struct TeamDetail: Codable {
-    var id: Int?
-    var name: String?
-    var country: String?
-    var founded: Int?
-    var national: Bool?
-    var logo: String?
-}
-struct Venue:Codable{
-    var id: Int?
-    var name: String?
-    var address: String?
-    var city: String?
-    var capacity: Int?
-    var surface: String?
-    var image: String?
-}
-*/
-
 
 
  

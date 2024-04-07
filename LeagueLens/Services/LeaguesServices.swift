@@ -45,7 +45,7 @@ class Services {
         }
     }
     
-    func downloadLeaguesTeams(id: Int, completion: @escaping ([LeagueStanding]?) -> ()) {
+    func downloadLeaguesDetail(id: Int, completion: @escaping ([LeagueStanding]?) -> ()) {
         let headers = APIUrls.APIKey()
         guard let url = URL(string: APIUrls.LeagueTeams(id: id)) else {
             print("Leagues Teams downloadLeaguesTeams Error")
@@ -66,13 +66,15 @@ class Services {
     
     func handleWithDownloadLeaguesTeams(_ data: Data) -> [LeagueStanding]? {
         do {
-            let leagueTeams = try JSONDecoder().decode(TeamsAPI.self, from: data)
+            let leagueTeams = try JSONDecoder().decode(LeagueDetailAPI.self, from: data)
             return leagueTeams.response
         } catch {
             print("handleWithDownloadLeaguesTeams Error: \(error)")
             return nil
         }
     }
+    
+    
     private func handleWithError(_ error: Error) {
         print(error.localizedDescription)
     }

@@ -4,11 +4,12 @@
 //
 //  Created by Ahmet Tunahan Bekdaş on 6.04.2024.
 //
-
+/*
 import UIKit
+import SVGKit
 
 final class CountryFlagImageView: UIImageView {
-    
+    private var svgImageView: SVGKFastImageView?
     private var dataTask: URLSessionDataTask?
     
     override init (frame: CGRect) {
@@ -18,6 +19,7 @@ final class CountryFlagImageView: UIImageView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+
     }
     
     func downloadLeagueFlagImage(league: ResponseLeague) {
@@ -30,11 +32,25 @@ final class CountryFlagImageView: UIImageView {
             switch result {
             case.success(let data):
                 DispatchQueue.main.sync {
-                    self.image = UIImage(data: data)
+                    self.loadSVGImage(data: data)
                 }
             case .failure(let error):
                 return print("downloadLeagueFlagImage fetcData Error \(error.localizedDescription)")
             }
         })
     }
+    
+    // Yeni fonksiyon: SVG dosyasını yükler ve UIImage'a dönüştürür
+       private func loadSVGImage(data: Data) {
+           if let svgImage = SVGKImage(data: data) {
+               // SVG dosyasını UIImage'a dönüştür
+               let uiImage = svgImage.uiImage
+               
+               // UIImage'ı ImageView'a yükle
+               self.image = uiImage
+           } else {
+               print("SVG dosyası yüklenemedi.")
+           }
+       }
 }
+*/

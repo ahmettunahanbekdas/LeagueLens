@@ -11,14 +11,14 @@ protocol LeaguesDetailsViewControllerInterface: AnyObject {
 final class LeaguesDetailsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     
     private let viewModel = LeaguesDetailsViewModel()
-    private var league: [LeagueStanding]
+    private var selectedLeague: [LeagueStanding]
     
-    private var headerImageView: UIImageView!
+    private var headerImageView: HeaderImageView!
     private var headerLabel: UILabel!
     private var collectionView: UICollectionView!
     
     init(league: [LeagueStanding]) {
-        self.league = league
+        self.selectedLeague = league
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -51,21 +51,19 @@ extension LeaguesDetailsViewController: LeaguesDetailsViewControllerInterface {
         let headerHeight: CGFloat = CGFloat.deviceHeight
         let headerWidth: CGFloat = CGFloat.deviceWidth
         
-        headerImageView = UIImageView(frame: .zero)
+        headerImageView = HeaderImageView(frame: .zero)
         headerImageView.contentMode = .scaleAspectFit
         headerImageView.clipsToBounds = true
-        headerImageView.image = UIImage(named: "chmpleg")
+        headerImageView.detailDownloadLeaguesImage(league: selectedLeague.first!)
         headerImageView.translatesAutoresizingMaskIntoConstraints = false
-        headerImageView.backgroundColor = .green
         view.addSubview(headerImageView)
         
         headerLabel = UILabel(frame: .zero)
         headerLabel.textAlignment = .center
-        headerLabel.text = "League Name" // İstenilen başlık metnini ekleyin
+        headerLabel.text = selectedLeague.first?.league?.name
         headerLabel.textColor = .black
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         headerLabel.font = UIFont.boldSystemFont(ofSize: 24)
-        headerLabel.backgroundColor = .red
         view.addSubview(headerLabel)
         
         NSLayoutConstraint.activate([
@@ -74,7 +72,6 @@ extension LeaguesDetailsViewController: LeaguesDetailsViewControllerInterface {
             headerImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -headerWidth / 5),
             headerImageView.heightAnchor.constraint(equalToConstant: headerHeight / 6),
             
-            // Header label constraints
             headerLabel.topAnchor.constraint(equalTo: headerImageView.bottomAnchor, constant: 8),
             headerLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             headerLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -91,7 +88,6 @@ extension LeaguesDetailsViewController: LeaguesDetailsViewControllerInterface {
         view.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
-            // Collection view constraints
             collectionView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 8),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -102,17 +98,45 @@ extension LeaguesDetailsViewController: LeaguesDetailsViewControllerInterface {
     }
 }
 
-
-
 extension LeaguesDetailsViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return league.first?.league?.standings?.first!.count ?? 0
+        return selectedLeague.first?.league?.standings?.first!.count ?? 0
     }
+    
+    // func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    //     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TeamsCollectionViewCell.reuseID, for: indexPath) as! TeamsCollectionViewCell
+    //     cell.setCell(teamName: selectedLeague.first?.league?.standings?.first![indexPath.item].team?.name ?? "nil",
+    //                  teamID: selectedLeague.first?.league?.standings?.first![indexPath.item].team?.id ?? 0,
+    //                  rank: selectedLeague.first?.league?.standings?.first![indexPath.item].rank ?? 0,
+    //                  points: selectedLeague.first?.league?.standings?.first![indexPath.item].points ?? 0,
+    //                  form: "www",
+    //                  win: 22,
+    //                  draw: 22,
+    //                  lose: 22
+    //     )
+    //     return cell
+    // }
+    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TeamsCollectionViewCell.reuseID, for: indexPath) as! TeamsCollectionViewCell
-        cell.setCell(teamName: league.first?.league?.standings?.first?[indexPath.item].team?.name ?? "nil", teamID: league.first?.league?.standings?.first![indexPath.item].team?.id ?? 0)
+        cell.setCell(
+            rank: selectedLeague.first?.league?.standings?.first![indexPath.item].rank ?? 0,
+            teamImage: selectedLeague.first?.league?.standings?.first![indexPath.item].team?.id ?? 0,
+            teamName: selectedLeague.first?.league?.standings?.first![indexPath.item].team?.name ?? "nil",
+            win: selectedLeague.first?.league?.standings?.first![indexPath.item].all?.win ?? 0,
+            draw: selectedLeague.first?.league?.standings?.first![indexPath.item].all?.draw ?? 0,
+            lose: selectedLeague.first?.league?.standings?.first![indexPath.item].all?.lose ?? 0,
+            points: selectedLeague.first?.league?.standings?.first![indexPath.item].points ?? 0,
+            form: selectedLeague.first?.league?.standings?.first![indexPath.item].form ?? " "
+        )
         return cell
     }
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(selectedLeague.first?.league?.standings?.first![indexPath.item].team?.id ?? 0)
+    }
 }
-

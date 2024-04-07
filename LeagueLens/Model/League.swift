@@ -35,4 +35,10 @@ struct League: Codable {
     var id: Int?
     var name, type: String?
     var logo: String?
+    
+    var _id: Int {
+        id ?? Int.min
+    }
 }
+
+

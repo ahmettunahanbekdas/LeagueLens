@@ -8,10 +8,8 @@
 import UIKit
 
 final class LLTitleLabel: UILabel {
-
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         configure()
     }
     
