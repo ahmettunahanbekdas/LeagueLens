@@ -1,28 +1,23 @@
-//
-//  TeamsCollectionViewCell.swift
-//  LeagueLens
-//
-//  Created by Ahmet Tunahan Bekdaş on 4.04.2024.
-//
 
 import UIKit
 
 final class TeamsCollectionViewCell: UICollectionViewCell {
     static let reuseID = "TeamsCell"
+    
     private var teams:  LeagueStanding!
     
-    private let rankLabel: UILabel = {
+    private let teamsRankLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let teamsImageView: TeamsImageView = {
-        let imageView = TeamsImageView(frame: .zero)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        return imageView
+    private let teamsPoster: TeamsDownloadPosterImageView = {
+        let image = TeamsDownloadPosterImageView(frame: .zero)
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.contentMode = .scaleAspectFill
+        image.clipsToBounds = true
+        return image
     }()
     
     private let teamNameLabel: UILabel = {
@@ -32,105 +27,104 @@ final class TeamsCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let winLabel: UILabel = {
+    private let teamsWinLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let drawLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 15)
-        return label
-    }()
-    
-    private let loseLabel: UILabel = {
+    private let teamsDrawLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
     
-    private let pointsLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 15) // Kalın yazı tipi ayarı
-        return label
-    }()
-    
-    private let formLabel: UILabel = {
+    private let teamsLoseLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
     
+    private let teamsPointLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        return label
+    }()
+    
+    private let teamsFormLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 15)
+        return label
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configure()
+        configureTeamsCollectionViewCell()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setCell(rank: Int, teamImage: Int, teamName: String, win:Int, draw: Int, lose: Int, points: Int, form: String) {
+    func setTeamsCell(rank: Int, teamImage: Int, teamName: String, win:Int, draw: Int, lose: Int, points: Int, form: String) {
         teamNameLabel.text = teamName
-        teamsImageView.downloadTeamsImage(id: teamImage)
-        rankLabel.text = "\(rank)."
-        pointsLabel.text = "P: \(points)"
-        loseLabel.text = "L: \(lose)"
-        drawLabel.text = "D: \(draw)"
-        winLabel.text = "W: \(win)"
-        formLabel.text = form
+        teamsPoster.downloadTeamsLogo(id: teamImage)
+        teamsRankLabel.text = "\(rank)."
+        teamsPointLabel.text = "P: \(points)"
+        teamsLoseLabel.text = "L: \(lose)"
+        teamsDrawLabel.text = "D: \(draw)"
+        teamsWinLabel.text = "W: \(win)"
+        teamsFormLabel.text = form
     }
     
-    private func configure() {
-        addSubview(rankLabel)
-        addSubview(teamsImageView)
+    private func configureTeamsCollectionViewCell() {
+        addSubview(teamsRankLabel)
+        addSubview(teamsPoster)
         addSubview(teamNameLabel)
-        addSubview(winLabel)
-        addSubview(drawLabel)
-        addSubview(loseLabel)
-        addSubview(pointsLabel)
-        addSubview(formLabel)
+        addSubview(teamsWinLabel)
+        addSubview(teamsDrawLabel)
+        addSubview(teamsLoseLabel)
+        addSubview(teamsPointLabel)
+        addSubview(teamsFormLabel)
         
         let padding: CGFloat = .deviceWidth
         
         
         NSLayoutConstraint.activate([
-            rankLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding/80),
-            rankLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            teamsRankLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding/80),
+            teamsRankLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            teamsImageView.leadingAnchor.constraint(equalTo: rankLabel.trailingAnchor, constant: padding/80),
-            teamsImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            teamsImageView.widthAnchor.constraint(equalToConstant: padding/15),
-            teamsImageView.heightAnchor.constraint(equalTo: teamsImageView.widthAnchor),
+            teamsPoster.leadingAnchor.constraint(equalTo: teamsRankLabel.trailingAnchor, constant: padding/80),
+            teamsPoster.centerYAnchor.constraint(equalTo: centerYAnchor),
+            teamsPoster.widthAnchor.constraint(equalToConstant: padding/15),
+            teamsPoster.heightAnchor.constraint(equalTo: teamsPoster.widthAnchor),
             
-            teamNameLabel.leadingAnchor.constraint(equalTo: teamsImageView.trailingAnchor, constant: padding/80),
+            teamNameLabel.leadingAnchor.constraint(equalTo: teamsPoster.trailingAnchor, constant: padding/80),
             teamNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            teamNameLabel.widthAnchor.constraint(equalToConstant: padding/6), // Örnek bir genişlik
-
-            winLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding/3),
-            winLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            teamNameLabel.widthAnchor.constraint(equalToConstant: padding/6),
             
-            drawLabel.leadingAnchor.constraint(equalTo: winLabel.trailingAnchor, constant: padding/40),
-            drawLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            teamsWinLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding/3),
+            teamsWinLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            loseLabel.leadingAnchor.constraint(equalTo: drawLabel.trailingAnchor, constant: padding/40),
-            loseLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            teamsDrawLabel.leadingAnchor.constraint(equalTo: teamsWinLabel.trailingAnchor, constant: padding/40),
+            teamsDrawLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            pointsLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding/5),
-            pointsLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-
-            formLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding/80),
-            formLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+            teamsLoseLabel.leadingAnchor.constraint(equalTo: teamsDrawLabel.trailingAnchor, constant: padding/40),
+            teamsLoseLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
+            teamsPointLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding/5),
+            teamsPointLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
+            teamsFormLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding/80),
+            teamsFormLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
         
         layer.borderColor = UIColor.secondaryLabel.cgColor
         layer.borderWidth = 2
         layer.cornerRadius = 10
-    }}
-
+    }
+}

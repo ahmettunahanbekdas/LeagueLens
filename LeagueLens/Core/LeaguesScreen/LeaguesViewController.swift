@@ -1,26 +1,19 @@
-//
-//  ViewController.swift
-//  MatchMinder
-//
-//  Created by Ahmet Tunahan Bekdaş on 29.03.2024.
-//
 
 import UIKit
 
 protocol LeaguesViewControllerInterface: AnyObject {
-    func configureLeaguesView()
+    func configureAllLeaguesView()
     func reloadData()
-    func navigationToDetailsLeagues(leagueDetail: [LeagueStanding])
+    func navigationToDetailsLeagues(leagueDetails: [LeagueStanding])
 }
 
 class LeaguesViewController: UIViewController {
-   
     
     private let viewModel = LeaguesViewModel()
     private let services = Services()
-    var collectionView: UICollectionView!
+    var allLeaguescollectionView: UICollectionView!
     
-    private let searchController: UISearchController = {
+    private let searchAllLeaguesController: UISearchController = {
         let controller = UISearchController(searchResultsController: SearchResultViewController())
         controller.searchBar.placeholder = "Search League"
         controller.searchBar.searchBarStyle = .prominent
@@ -35,36 +28,36 @@ class LeaguesViewController: UIViewController {
 }
 
 extension LeaguesViewController: LeaguesViewControllerInterface {
-    func configureLeaguesView() {
-        configureCollectionView()
-        navigationItem.searchController = searchController
+    func configureAllLeaguesView() {
+        configureAllLeaguesCollectionView()
+        navigationItem.searchController = searchAllLeaguesController
         navigationItem.hidesSearchBarWhenScrolling = true
         navigationController?.navigationBar.tintColor = .label
-        searchController.searchResultsUpdater = self
+        searchAllLeaguesController.searchResultsUpdater = self
     }
     
     func reloadData() {
         DispatchQueue.main.async {
-            self.collectionView.reloadData()
+            self.allLeaguescollectionView.reloadData()
         }
     }
     
-    func configureCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createTeamsFlowLayout())
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(LeaguesCollectionViewCell.self, forCellWithReuseIdentifier: LeaguesCollectionViewCell.reuseID)
-        view.addSubview(collectionView)
+    func configureAllLeaguesCollectionView() {
+        allLeaguescollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createCollectionViewFlowLayout())
+        allLeaguescollectionView.dataSource = self
+        allLeaguescollectionView.delegate = self
+        allLeaguescollectionView.register(LeaguesCollectionViewCell.self, forCellWithReuseIdentifier: LeaguesCollectionViewCell.reuseID)
+        view.addSubview(allLeaguescollectionView)
         view.backgroundColor = .systemBackground
     }
     
-    func navigationToDetailsLeagues(leagueDetail: [LeagueStanding]) {
+    func navigationToDetailsLeagues(leagueDetails: [LeagueStanding]) {
         DispatchQueue.main.async {
-            guard !leagueDetail.isEmpty else {
-                MakeAlert.alertMassage(title: "League Detail Not Found", message: "Continue For Other Leagues", style: .alert, vc: self)
+            guard !leagueDetails.isEmpty else {
+                MakeAlertHelper.alertMassage(title: "League Detail Not Found", message: "Continue For Other Leagues", style: .alert, vc: self)
                 return
             }
-            let detailsLeague = LeaguesDetailsViewController(league: leagueDetail)
+            let detailsLeague = LeaguesDetailsViewController(selectedLeague: leagueDetails)
             self.navigationController?.pushViewController(detailsLeague, animated: true)
         }
     }
@@ -77,7 +70,7 @@ extension LeaguesViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LeaguesCollectionViewCell.reuseID, for: indexPath) as! LeaguesCollectionViewCell
-        cell.setCell(league: viewModel.leagues[indexPath.item])
+        cell.allLeagueSetCell(league: viewModel.leagues[indexPath.item])
         
         return cell
     }
@@ -96,21 +89,20 @@ extension LeaguesViewController: UICollectionViewDataSource, UICollectionViewDel
 extension LeaguesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let searchBar = searchController.searchBar
-           
+        
         guard let query = searchBar.text,
               !query.trimmingCharacters(in: .whitespaces).isEmpty,
               query.trimmingCharacters(in: .whitespaces).count >= 3,
               let resultController = searchController.searchResultsController as? SearchResultViewController else {
-            print("updateSearchResults Error")
+            print("updateSearchResults query Error")
             return
         }
         
         DispatchQueue.main.async { [weak self] in
-            self?.services.search(with: query) { [weak resultController] results in
+            self?.services.searchLeagues(with: query) { [weak resultController] results in
                 DispatchQueue.main.async {
                     guard let searchResults = results else {
-                        // Handle the case when results is nil
-                        // For example, display an error message to the user
+                       print("updateSearchResults services Error" )
                         return
                     }
                     resultController?.searchLeagues = searchResults
@@ -120,9 +112,6 @@ extension LeaguesViewController: UISearchResultsUpdating {
         }
     }
 }
-
-
-
 
 //func getLeagues() {
 //    services.downloadLeagues { [weak self] returnedLeagues in

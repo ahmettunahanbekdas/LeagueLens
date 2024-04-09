@@ -1,15 +1,16 @@
+
 import Foundation
 
 protocol FavoritesViewModelInterface {
-    var view: FavoritesViewControllerInterface? { get set }
+    var view: FavoritesLeaguesViewControllerInterface? { get set }
 }
 
-final class FavoritesViewModel {
-    var view: FavoritesViewControllerInterface?
-     var leagues: [TitleItem] = [TitleItem]()
+final class FavoritesLeaguesViewModel {
+    var view: FavoritesLeaguesViewControllerInterface?
+     var favoritesLeagues: [TitleItem] = [TitleItem]()
 
     func viewDidLoad() {
-        view?.configureView()
+        view?.configureFavoritesLeaguesView()
         fetchLocalStorageForFavorites()
     }
     
@@ -20,14 +21,13 @@ final class FavoritesViewModel {
     }
 
     private func fetchLocalStorageForFavorites() {
-        DataPersistenceManager.shared.fetchingLeaguesFromDataBase { [weak self] result in
+        DataPersistenceManager.shared.fetchingFavoritesLeaguesFromDataBase { [weak self] result in
             switch result {
             case .success(let leagues):
-                self?.leagues = leagues
+                self?.favoritesLeagues = leagues
             case .failure(_):
                 print("Error")
             }
         }
     }
 }
-

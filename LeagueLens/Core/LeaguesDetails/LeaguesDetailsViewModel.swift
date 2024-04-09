@@ -10,9 +10,9 @@ final class LeaguesDetailsViewModel: LeaguesDetailsViewModelInterface {
     weak var view: LeaguesDetailsViewControllerInterface?
 
     func viewDidLoad() {
-        view?.configureView()
-        view?.headerView()
-        view?.configureCollectionView()
+        view?.configureLeaguesDetailsViewController()
+        view?.leaguesDetailsHeaderView()
+        view?.configureLeaguesDetailsCollectionView()
         view?.reloadData()
     }
     

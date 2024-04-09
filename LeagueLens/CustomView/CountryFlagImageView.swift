@@ -1,9 +1,4 @@
-//
-//  CountryFlagImageView.swift
-//  LeagueLens
-//
-//  Created by Ahmet Tunahan Bekdaş on 6.04.2024.
-//
+
 /*
 import UIKit
 import SVGKit

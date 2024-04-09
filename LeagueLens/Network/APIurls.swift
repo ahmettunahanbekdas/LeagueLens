@@ -1,14 +1,7 @@
-//
-//  API.swift
-//  MatchMinder
-//
-//  Created by Ahmet Tunahan Bekdaş on 30.03.2024.
-//
 
 import Foundation
 
-
-enum APIUrls {
+enum APIurls {
     static func APIKey() -> [String: String] {
         return [
             "X-RapidAPI-Key": "09b7c2901dmsh6d62a75afce8803p185e35jsn86cc90bb97fe",
@@ -16,33 +9,31 @@ enum APIUrls {
         ]
     }
     
-    static func urlAllLeagues() -> String {
+    static func allLeagues() -> String {
         return "https://api-football-v1.p.rapidapi.com/v3/leagues"
     }
         
-    static func LeaguesImages(id: Int) -> String {
+    static func allLeaguesPosterImageView(id: Int) -> String {
         return "https://media.api-sports.io/football/leagues/\(id).png"
     }
     
-    static func LeagueTeams(id: Int) -> String {
+    static func leagueDetailTeams(id: Int) -> String {
         return "https://api-football-v1.p.rapidapi.com/v3/standings?season=2023&league=\(id)"
     }
     
-    static func teamsImage(id: Int) -> String {
+    static func teamsPosterImageView(id: Int) -> String {
         return "https://media.api-sports.io/football/teams/\(id).png"
     }
     
-    static func leagueImageView(leagueCode: String) -> String {
+    static func leaguesContryFlag(leagueCode: String) -> String {
         return "https://media.api-sports.io/flags/\(leagueCode).svg"
     }
     
-    static func teamsDetail(id: Int) -> String {
+    static func teamsDetails(id: Int) -> String {
         return "https://api-football-v1.p.rapidapi.com/v3/teams?id=\(id)"
     }
     
     static func searchLeague(with query: String) -> String {
         return "https://api-football-v1.p.rapidapi.com/v3/leagues?search=\(query)"
     }
-    
-    
 }

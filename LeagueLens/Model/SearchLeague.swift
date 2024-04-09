@@ -1,14 +1,7 @@
-//
-//  SearchLeague.swift
-//  LeagueLens
-//
-//  Created by Ahmet Tunahan Bekdaş on 9.04.2024.
-//
 
 import Foundation
 
-
-struct SearchLeagueAPIResponse: Codable {
+struct SearchLeagueAPI: Codable {
     let get: String
     let parameters: SearchParameters
     let errors: [String]
