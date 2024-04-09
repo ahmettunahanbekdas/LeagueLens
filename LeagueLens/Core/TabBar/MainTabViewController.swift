@@ -16,24 +16,21 @@ class MainTabViewController: UITabBarController {
         
         // TabBar Views atandı.
         let vc1 = UINavigationController(rootViewController: LeaguesViewController())
-        let vc2 = UINavigationController(rootViewController: SearchViewController())
-        let vc3 = UINavigationController(rootViewController: FavoritesViewController())
+        let vc2 = UINavigationController(rootViewController: FavoritesViewController())
         
         // TabBar Images eklendi.
         vc1.tabBarItem.image = UIImage(systemName: "soccerball.inverse")
-        vc2.tabBarItem.image = UIImage(systemName: "magnifyingglass")
-        vc3.tabBarItem.image = UIImage(systemName: "heart.fill")
+        vc2.tabBarItem.image = UIImage(systemName: "heart.fill")
         
        //tabBar.tintColor = .label
        //tabBar.backgroundColor = .systemGray3
         
         // TabBar Title.
         vc1.title = "Leagues"
-        vc2.title =  "Search"
-        vc3.title = "Favorites"
+        vc2.title = "Favorites"
         
         // TabBar'a set edildi.
-        setViewControllers([vc2, vc1, vc3] , animated: true)
+        setViewControllers([vc1, vc2] , animated: true)
         
     }
 }

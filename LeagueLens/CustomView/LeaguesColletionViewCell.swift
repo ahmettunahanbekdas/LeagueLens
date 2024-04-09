@@ -12,14 +12,18 @@ class LeaguesCollectionViewCell: UICollectionViewCell {
         return leagueImage
     }()
     
-    //   private let leaguFlagImageView: CountryFlagImageView = {
-    //       let flagImage = CountryFlagImageView(frame: .zero)
-    //       flagImage.tintColor = .label
-    //       flagImage.contentMode = .scaleAspectFit
-    //       return flagImage
-    //   }()
-    
     private let leagueNameLabel = LLTitleLabel(fontSize: 20)
+    
+    private var selectedLeague: ResponseLeague?
+    
+    private lazy var favoriteButton: UIButton = {
+        let button = UIButton()
+        let image = UIImage(systemName: "star")
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
+        button.tintColor = .label
+        return button
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,48 +36,60 @@ class LeaguesCollectionViewCell: UICollectionViewCell {
     
     func setCell(league: ResponseLeague) {
         self.league = league
+        selectedLeague = league
         leagueImageView.downloadLeaguesImage(league: league)
-        //  leaguFlagImageView.downloadLeagueFlagImage(league: league)
         leagueNameLabel.text = league.league?.name
-        
-        
+    }
+    
+    
+    @objc private func favoriteButtonTapped() {
+        guard let selectedLeague = selectedLeague else {
+            print("Error: No league selected")
+            return
+        }
+        DataPersistenceManager.shared.downloadLeagueWith(model: selectedLeague) { [weak self] result in
+            guard let self = self else {
+                print("favoriteButtonTapped error")
+                return
+            }
+            switch result {
+            case .success():
+                print("League saved successfully")
+            case .failure(let error):
+                print("Error saving league: \(error)")
+            }
+        }
     }
     
     private func configureCell() {
-        //  addSubview(leaguFlagImageView)
         addSubview(leagueImageView)
         addSubview(leagueNameLabel)
-
+        addSubview(favoriteButton)
         
-        // Ayarlayın ve kısıtlamaları aktif hale getirin
         leagueImageView.translatesAutoresizingMaskIntoConstraints = false
         leagueNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        // leaguFlagImageView.translatesAutoresizingMaskIntoConstraints = false
-        
+        favoriteButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            // Resim sol tarafta, 40x40 boyutta ve merkezde
             leagueImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40),
             leagueImageView.widthAnchor.constraint(equalToConstant: 60),
             leagueImageView.heightAnchor.constraint(equalToConstant: 60),
             leagueImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            // Bayrak resmi sol tarafta, 40x40 boyutta ve merkezde
-            //          leaguFlagImageView.leadingAnchor.constraint(equalTo: //leagueImageView.trailingAnchor, constant: 8),
-            //          leaguFlagImageView.widthAnchor.constraint(equalToConstant: 40),
-            //          leaguFlagImageView.heightAnchor.constraint(equalToConstant: 40),
-            //          leaguFlagImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            //
-            // Etiket resmin sağında ve merkezde
-            
             leagueNameLabel.leadingAnchor.constraint(equalTo: leagueImageView.trailingAnchor, constant: 8),
-            leagueNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            leagueNameLabel.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: -8),
             leagueNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
+            favoriteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            favoriteButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 40),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 40)
         ])
         
-        // Hücrenin kenarlığını ve köşelerini ayarla
         layer.borderColor = UIColor.lightGray.cgColor
         layer.borderWidth = 4
         layer.cornerRadius = 16
     }
 }
+
+

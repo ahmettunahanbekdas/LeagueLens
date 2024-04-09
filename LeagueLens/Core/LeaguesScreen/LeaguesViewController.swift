@@ -14,9 +14,18 @@ protocol LeaguesViewControllerInterface: AnyObject {
 }
 
 class LeaguesViewController: UIViewController {
+   
     
     private let viewModel = LeaguesViewModel()
+    private let services = Services()
     var collectionView: UICollectionView!
+    
+    private let searchController: UISearchController = {
+        let controller = UISearchController(searchResultsController: SearchResultViewController())
+        controller.searchBar.placeholder = "Search League"
+        controller.searchBar.searchBarStyle = .prominent
+        return controller
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +37,10 @@ class LeaguesViewController: UIViewController {
 extension LeaguesViewController: LeaguesViewControllerInterface {
     func configureLeaguesView() {
         configureCollectionView()
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = true
+        navigationController?.navigationBar.tintColor = .label
+        searchController.searchResultsUpdater = self
     }
     
     func reloadData() {
@@ -79,3 +92,49 @@ extension LeaguesViewController: UICollectionViewDataSource, UICollectionViewDel
         viewModel.didSelectedLeaguesDetail(id: viewModel.leagues[indexPath.item].league!._id )
     }
 }
+
+extension LeaguesViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+           
+        guard let query = searchBar.text,
+              !query.trimmingCharacters(in: .whitespaces).isEmpty,
+              query.trimmingCharacters(in: .whitespaces).count >= 3,
+              let resultController = searchController.searchResultsController as? SearchResultViewController else {
+            print("updateSearchResults Error")
+            return
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.services.search(with: query) { [weak resultController] results in
+                DispatchQueue.main.async {
+                    guard let searchResults = results else {
+                        // Handle the case when results is nil
+                        // For example, display an error message to the user
+                        return
+                    }
+                    resultController?.searchLeagues = searchResults
+                    resultController?.searchResultCollectionView.reloadData()
+                }
+            }
+        }
+    }
+}
+
+
+
+
+//func getLeagues() {
+//    services.downloadLeagues { [weak self] returnedLeagues in
+//        guard let self = self else {
+//            print("Error")
+//            return
+//        }
+//        guard let returnedLeagues = returnedLeagues else {
+//            print("returnedLeagues")
+//            return
+//        }
+//        self.leagues.append(contentsOf: returnedLeagues)
+//        self.view?.reloadData()
+//    }
+//}

@@ -74,6 +74,35 @@ class Services {
         }
     }
     
+
+    func search(with query: String,completion: @escaping ([ResponseLeague]?) -> ()) {
+        let headers = APIUrls.APIKey()
+        guard let url = URL(string: APIUrls.searchLeague(with: query)) else {
+            print("Football API URL Error")
+            completion(nil)
+            return
+        }
+        NetworkManager.shared.download(url: url, headers: headers) { [weak self] leagues in
+            guard let self = self else { return }
+            switch leagues {
+            case .success(let data):
+                completion(self.handleWithSearch(data))
+            case .failure(let error):
+                print("Failed to download leagues data")
+                self.handleWithError(error)
+            }
+        }
+    }
+    
+    func handleWithSearch(_ data: Data) -> [ResponseLeague]? {
+        do {
+            let leagues = try JSONDecoder().decode(LeaguesAPI.self, from: data)
+            return leagues.response
+        } catch {
+            print("Error decoding leagues data: \(error)")
+            return nil
+        }
+    }
     
     private func handleWithError(_ error: Error) {
         print(error.localizedDescription)
