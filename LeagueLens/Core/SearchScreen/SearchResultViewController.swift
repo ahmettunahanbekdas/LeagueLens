@@ -15,7 +15,6 @@ protocol SearchResultViewControllerInterface: AnyObject {
 class SearchResultViewController: UIViewController {
 
     private let viewModel =  SearchResultViewModel()
-    var leagues: [ResponseLeague] = []
     var searchLeagues: [ResponseLeague] = []
 
      let searchResultCollectionView: UICollectionView = {
@@ -56,12 +55,9 @@ extension SearchResultViewController: UICollectionViewDelegate, UICollectionView
         }
         cell.backgroundColor = .systemRed
         let league = searchLeagues[indexPath.row]
-        cell.setCell(league: league)
+        cell.allLeagueSetCell(league: league)
       return cell
     }
 
 }
-
-
-
 // TIKLAMA İŞİ 4.23 TE VAR

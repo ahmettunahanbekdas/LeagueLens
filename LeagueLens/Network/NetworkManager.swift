@@ -1,9 +1,3 @@
-//
-//  NetworkManager.swift
-//  MatchMinder
-//
-//  Created by Ahmet Tunahan Bekdaş on 30.03.2024.
-//
 
 import Foundation
 
@@ -42,7 +36,3 @@ final class NetworkManager {
         return dataTask
     }
 }
-
-
-
-

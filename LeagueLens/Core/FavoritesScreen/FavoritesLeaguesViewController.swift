@@ -1,15 +1,16 @@
+
 import UIKit
 
-protocol FavoritesViewControllerInterface: AnyObject {
-    func configureView()
+protocol FavoritesLeaguesViewControllerInterface: AnyObject {
+    func configureFavoritesLeaguesView()
     func reloadData()
 }
 
-class FavoritesViewController: UIViewController {
-    private let viewModel = FavoritesViewModel()
+class FavoritesLeaguesViewController: UIViewController {
+    private let viewModel = FavoritesLeaguesViewModel()
     
     
-    let favoritesTableView: UITableView = {
+    let favoritesLeaguesTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(FavoritesTableViewCell.self, forCellReuseIdentifier: FavoritesTableViewCell.reuseID)
         return tableView
@@ -29,27 +30,27 @@ class FavoritesViewController: UIViewController {
     
     func reloadData() {
         DispatchQueue.main.async {
-            self.favoritesTableView.reloadData()
+            self.favoritesLeaguesTableView.reloadData()
         }
     }
 }
 
-extension FavoritesViewController: FavoritesViewControllerInterface {
-    func configureView() {
+extension FavoritesLeaguesViewController: FavoritesLeaguesViewControllerInterface {
+    func configureFavoritesLeaguesView() {
         title = "Favorites"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .always
         view.backgroundColor = .systemBackground
-        view.addSubview(favoritesTableView)
-        favoritesTableView.frame = view.bounds
-        favoritesTableView.delegate = self
-        favoritesTableView.dataSource = self
+        view.addSubview(favoritesLeaguesTableView)
+        favoritesLeaguesTableView.frame = view.bounds
+        favoritesLeaguesTableView.delegate = self
+        favoritesLeaguesTableView.dataSource = self
     }
 }
 
-extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
+extension FavoritesLeaguesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.leagues.count
+        return viewModel.favoritesLeagues.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -57,8 +58,8 @@ extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let titleItem = viewModel.leagues[indexPath.row]
-        cell.setCell(titleItem: titleItem)
+        let leaguesItems = viewModel.favoritesLeagues[indexPath.row]
+        cell.favoritesLeaguesSetCell(leaguesItem: leaguesItems)
         return cell
     }
     
@@ -69,18 +70,18 @@ extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
-            DataPersistenceManager.shared.deleteLeagueWith(model: viewModel.leagues[indexPath.row]) { [weak self] results in
+            DataPersistenceManager.shared.deleteFavoritesLeaguFromDatabase(model: viewModel.favoritesLeagues[indexPath.row]) { [weak self] results in
                 guard let self = self else {
                     print("delete self Error")
                     return
                 }
                 switch results {
                 case .success():
-                    MakeAlert.alertMassage(title: "League Deleted", message: "Okay", style: .actionSheet, vc: self)
+                    MakeAlertHelper.alertMassage(title: "League Deleted", message: "Okay", style: .actionSheet, vc: self)
                 case.failure(_):
-                    MakeAlert.alertMassage(title: "League Not Deleted", message: "Okay", style: .actionSheet, vc: self)
+                    MakeAlertHelper.alertMassage(title: "League Not Deleted", message: "Okay", style: .actionSheet, vc: self)
                 }
-                viewModel.leagues.remove(at: indexPath.row)
+                viewModel.favoritesLeagues.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
         default :
@@ -88,5 +89,3 @@ extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
-
-

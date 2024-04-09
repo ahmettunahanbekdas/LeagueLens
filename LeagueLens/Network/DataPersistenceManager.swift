@@ -1,17 +1,18 @@
+
 import UIKit
 import CoreData
 
 class DataPersistenceManager {
     
+    static let shared = DataPersistenceManager()
+
     enum DataBaseError: Error {
         case failedToSaveData
         case failedToFetchData
         case failedToDeleteData
     }
     
-    static let shared = DataPersistenceManager()
-                                    
-    func downloadLeagueWith(model: ResponseLeague, completion: @escaping (Result<Void, Error>) -> Void) {
+    func saveLeaguesFavoritesFromDatabase(model: ResponseLeague, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return completion(.failure(DataBaseError.failedToSaveData))
         }
@@ -29,7 +30,7 @@ class DataPersistenceManager {
         }
     }
     
-    func fetchingLeaguesFromDataBase(completion: @escaping (Result<[TitleItem], Error>) -> Void) {
+    func fetchingFavoritesLeaguesFromDataBase(completion: @escaping (Result<[TitleItem], Error>) -> Void) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return completion(.failure(DataBaseError.failedToSaveData))
         }
@@ -46,7 +47,7 @@ class DataPersistenceManager {
         }
     }
     
-    func deleteLeagueWith(model: TitleItem, completion: @escaping (Result<Void, Error>) -> Void) {
+    func deleteFavoritesLeaguFromDatabase(model: TitleItem, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return completion(.failure(DataBaseError.failedToSaveData))
         }

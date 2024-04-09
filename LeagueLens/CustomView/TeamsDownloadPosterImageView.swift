@@ -1,13 +1,7 @@
-//
-//  TeamsImageView.swift
-//  LeagueLens
-//
-//  Created by Ahmet Tunahan Bekdaş on 4.04.2024.
-//
 
 import UIKit
 
-final class TeamsImageView: UIImageView {
+final class TeamsDownloadPosterImageView: UIImageView {
     
     private var dataTask: URLSessionDataTask?
     
@@ -20,9 +14,9 @@ final class TeamsImageView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func downloadTeamsImage(id: Int) {
-        let headers = APIUrls.APIKey()
-        guard let url = URL(string: APIUrls.teamsImage(id: id)) else {return}
+    func downloadTeamsLogo(id: Int) {
+        let headers = APIurls.APIKey()
+        guard let url = URL(string: APIurls.teamsPosterImageView(id: id)) else {return}
         dataTask = NetworkManager.shared.download(url: url, headers: headers, completion: { [weak self] result in
             guard let self = self else {return}
             switch result {

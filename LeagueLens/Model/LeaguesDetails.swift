@@ -1,11 +1,7 @@
-//
-//  Teams.swift
-//  MatchMinder
-//
-//  Created by Ahmet Tunahan Bekdaş on 31.03.2024.
-//
 
-struct LeagueDetailAPI: Codable {
+import Foundation
+
+struct LeaguesDetailsAPI: Codable {
     let get: String?
     let parameters: StandingsParameters?
     let errors: [String]?

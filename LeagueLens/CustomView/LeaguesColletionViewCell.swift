@@ -3,20 +3,19 @@ import UIKit
 class LeaguesCollectionViewCell: UICollectionViewCell {
     
     static let reuseID = "LeaguesCell"
-    private var league: ResponseLeague!
     
-    private let leagueImageView: LeaguesImageView = {
-        let leagueImage = LeaguesImageView(frame: .zero)
-        leagueImage.tintColor = .label
-        leagueImage.contentMode = .scaleAspectFit
-        return leagueImage
+    private var league: ResponseLeague!
+    private var selectedLeague: ResponseLeague!
+    private let leagueNameLabel = TitleLabelHelper(fontSize: 20)
+    
+    private let leaguePoster: LeagueDownloadPosterImageView = {
+        let image = LeagueDownloadPosterImageView(frame: .zero)
+        image.tintColor = .label
+        image.contentMode = .scaleAspectFit
+        return image
     }()
     
-    private let leagueNameLabel = LLTitleLabel(fontSize: 20)
-    
-    private var selectedLeague: ResponseLeague?
-    
-    private lazy var favoriteButton: UIButton = {
+    private lazy var addFavoriteLeagueButtonTapped: UIButton = {
         let button = UIButton()
         let image = UIImage(systemName: "star")
         button.setImage(image, for: .normal)
@@ -34,10 +33,10 @@ class LeaguesCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setCell(league: ResponseLeague) {
+    func allLeagueSetCell(league: ResponseLeague) {
         self.league = league
         selectedLeague = league
-        leagueImageView.downloadLeaguesImage(league: league)
+        leaguePoster.allLeagueDownloadLogo(league: league)
         leagueNameLabel.text = league.league?.name
     }
     
@@ -47,7 +46,7 @@ class LeaguesCollectionViewCell: UICollectionViewCell {
             print("Error: No league selected")
             return
         }
-        DataPersistenceManager.shared.downloadLeagueWith(model: selectedLeague) { [weak self] result in
+        DataPersistenceManager.shared.saveLeaguesFavoritesFromDatabase(model: selectedLeague) { [weak self] result in
             guard let self = self else {
                 print("favoriteButtonTapped error")
                 return
@@ -62,34 +61,32 @@ class LeaguesCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureCell() {
-        addSubview(leagueImageView)
-        addSubview(leagueNameLabel)
-        addSubview(favoriteButton)
         
-        leagueImageView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(leaguePoster)
+        addSubview(leagueNameLabel)
+        addSubview(addFavoriteLeagueButtonTapped)
+        
+        leaguePoster.translatesAutoresizingMaskIntoConstraints = false
         leagueNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        favoriteButton.translatesAutoresizingMaskIntoConstraints = false
+        addFavoriteLeagueButtonTapped.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            leagueImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40),
-            leagueImageView.widthAnchor.constraint(equalToConstant: 60),
-            leagueImageView.heightAnchor.constraint(equalToConstant: 60),
-            leagueImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            leaguePoster.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40),
+            leaguePoster.widthAnchor.constraint(equalToConstant: 60),
+            leaguePoster.heightAnchor.constraint(equalToConstant: 60),
+            leaguePoster.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            leagueNameLabel.leadingAnchor.constraint(equalTo: leagueImageView.trailingAnchor, constant: 8),
-            leagueNameLabel.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: -8),
+            leagueNameLabel.leadingAnchor.constraint(equalTo: leaguePoster.trailingAnchor, constant: 8),
+            leagueNameLabel.trailingAnchor.constraint(equalTo: addFavoriteLeagueButtonTapped.leadingAnchor, constant: -8),
             leagueNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            favoriteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
-            favoriteButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            favoriteButton.widthAnchor.constraint(equalToConstant: 40),
-            favoriteButton.heightAnchor.constraint(equalToConstant: 40)
+            addFavoriteLeagueButtonTapped.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            addFavoriteLeagueButtonTapped.centerYAnchor.constraint(equalTo: centerYAnchor),
+            addFavoriteLeagueButtonTapped.widthAnchor.constraint(equalToConstant: 40),
+            addFavoriteLeagueButtonTapped.heightAnchor.constraint(equalToConstant: 40)
         ])
-        
         layer.borderColor = UIColor.lightGray.cgColor
         layer.borderWidth = 4
         layer.cornerRadius = 16
     }
 }
-
-

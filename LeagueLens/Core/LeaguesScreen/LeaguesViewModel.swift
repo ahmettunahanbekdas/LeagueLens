@@ -1,16 +1,10 @@
-//
-//  LeaguesViewModel.swift
-//  MatchMinder
-//
-//  Created by Ahmet Tunahan Bekdaş on 31.03.2024.
-//
 
 import Foundation
 
 protocol LeaguesViewModelInterface {
     var view: LeaguesViewControllerInterface? {get set}
     func viewDidLoad()
-    func getLeagues()
+    func getAllLeagues()
     func didSelectedLeaguesDetail(id: Int)
 }
 
@@ -23,12 +17,12 @@ final class LeaguesViewModel {
 
 extension LeaguesViewModel: LeaguesViewModelInterface {
     func viewDidLoad() {
-        view?.configureLeaguesView()
-        getLeagues()
+        view?.configureAllLeaguesView()
+        getAllLeagues()
     }
     
-    func getLeagues() {
-        services.downloadLeagues { [weak self] returnedLeagues in
+    func getAllLeagues() {
+        services.downloadAllLeagues { [weak self] returnedLeagues in
             guard let self = self else {
                 print("Error")
                 return
@@ -43,7 +37,7 @@ extension LeaguesViewModel: LeaguesViewModelInterface {
     }
     
     func didSelectedLeaguesDetail(id: Int) {
-        services.downloadLeaguesDetail(id: id) { [weak self] returnedLeagueDetail in
+        services.downloadLeaguesDetails(id: id) { [weak self] returnedLeagueDetail in
             guard let self = self else {
                 print("didSelectedLeaguesDetail self Error")
                 return
@@ -52,7 +46,7 @@ extension LeaguesViewModel: LeaguesViewModelInterface {
                 print("Failed to download league detail")
                 return
             }
-             self.view?.navigationToDetailsLeagues(leagueDetail: returnedLeagueDetail)
+             self.view?.navigationToDetailsLeagues(leagueDetails: returnedLeagueDetail)
         }
     }
 }

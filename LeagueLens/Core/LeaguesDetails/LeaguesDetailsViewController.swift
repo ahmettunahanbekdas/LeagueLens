@@ -1,23 +1,23 @@
 import UIKit
 
 protocol LeaguesDetailsViewControllerInterface: AnyObject {
-    func configureView()
-    func configureCollectionView()
-    func headerView()
+    func configureLeaguesDetailsViewController()
+    func configureLeaguesDetailsCollectionView()
+    func leaguesDetailsHeaderView()
     func reloadData()
 }
 
 final class LeaguesDetailsViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     
     private var viewModel: LeaguesDetailsViewModelInterface
-    private var selectedLeague: [LeagueStanding]
+    private var inLeague: [LeagueStanding]
     
-    private var headerImageView: HeaderImageView!
-    private var headerLabel: UILabel!
-    private var collectionView: UICollectionView!
+    private var leaguesDetailsLogoImageView: LeagueDetailsHeaderImageView!
+    private var leaguesDetailsNameLabel: UILabel!
+    private var leaguesDetailsCollectionView: UICollectionView!
     
-    init(league: [LeagueStanding], viewModel: LeaguesDetailsViewModelInterface = LeaguesDetailsViewModel()) {
-        self.selectedLeague = league
+    init(selectedLeague: [LeagueStanding], viewModel: LeaguesDetailsViewModelInterface = LeaguesDetailsViewModel()) {
+        self.inLeague = selectedLeague
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -30,8 +30,7 @@ final class LeaguesDetailsViewController: UIViewController, UICollectionViewDele
         super.viewDidLoad()
         viewModel.view = self
         viewModel.viewDidLoad()
-        
-        setupFavoriteButton()
+        //setupFavoriteButton()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -42,65 +41,64 @@ final class LeaguesDetailsViewController: UIViewController, UICollectionViewDele
 }
 
 extension LeaguesDetailsViewController: LeaguesDetailsViewControllerInterface {
-
+    
     func reloadData() {
         DispatchQueue.main.async {
-            self.collectionView.reloadData()
+            self.leaguesDetailsCollectionView.reloadData()
         }
     }
     
-    func configureView() {
-        title = selectedLeague.first?.league?.name ?? "None"
+    func configureLeaguesDetailsViewController() {
+        title = inLeague.first?.league?.name ?? "None"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
-
     }
     
-    func headerView() {
-        let headerHeight: CGFloat = CGFloat.deviceHeight
-        let headerWidth: CGFloat = CGFloat.deviceWidth
+    func leaguesDetailsHeaderView() {
+        let deviceHeight: CGFloat = CGFloat.deviceHeight
+        let deviceWidth: CGFloat = CGFloat.deviceWidth
         
-        headerImageView = HeaderImageView(frame: .zero)
-        headerImageView.contentMode = .scaleAspectFit
-        headerImageView.clipsToBounds = true
-        headerImageView.detailDownloadLeaguesImage(league: selectedLeague.first!)
-        headerImageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(headerImageView)
+        leaguesDetailsLogoImageView = LeagueDetailsHeaderImageView(frame: .zero)
+        leaguesDetailsLogoImageView.contentMode = .scaleAspectFit
+        leaguesDetailsLogoImageView.clipsToBounds = true
+        leaguesDetailsLogoImageView.detailDownloadLeaguesImage(league: inLeague.first!)
+        leaguesDetailsLogoImageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(leaguesDetailsLogoImageView)
         
-        headerLabel = UILabel(frame: .zero)
-        headerLabel.textAlignment = .center
-        headerLabel.text = selectedLeague.first?.league?.name
-        headerLabel.textColor = .label
-        headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerLabel.font = UIFont.boldSystemFont(ofSize: 24)
-        view.addSubview(headerLabel)
+        leaguesDetailsNameLabel = UILabel(frame: .zero)
+        leaguesDetailsNameLabel.textAlignment = .center
+        leaguesDetailsNameLabel.text = inLeague.first?.league?.name
+        leaguesDetailsNameLabel.textColor = .label
+        leaguesDetailsNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        leaguesDetailsNameLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        view.addSubview(leaguesDetailsNameLabel)
         
         NSLayoutConstraint.activate([
-            headerImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            headerImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: headerWidth / 5),
-            headerImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -headerWidth / 5),
-            headerImageView.heightAnchor.constraint(equalToConstant: headerHeight / 6),
+            leaguesDetailsLogoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            leaguesDetailsLogoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: deviceWidth / 5),
+            leaguesDetailsLogoImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -deviceWidth / 5),
+            leaguesDetailsLogoImageView.heightAnchor.constraint(equalToConstant: deviceHeight / 6),
             
-            headerLabel.topAnchor.constraint(equalTo: headerImageView.bottomAnchor, constant: 8),
-            headerLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            headerLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            headerLabel.heightAnchor.constraint(equalToConstant: headerHeight / 10)
+            leaguesDetailsNameLabel.topAnchor.constraint(equalTo: leaguesDetailsLogoImageView.bottomAnchor, constant: 8),
+            leaguesDetailsNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            leaguesDetailsNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            leaguesDetailsNameLabel.heightAnchor.constraint(equalToConstant: deviceHeight / 10)
         ])
     }
     
-    func configureCollectionView() {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: UIHelper.createTeamsFlowLayout())
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(TeamsCollectionViewCell.self, forCellWithReuseIdentifier: TeamsCollectionViewCell.reuseID)
-        view.addSubview(collectionView)
+    func configureLeaguesDetailsCollectionView() {
+        leaguesDetailsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UIHelper.createCollectionViewFlowLayout())
+        leaguesDetailsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        leaguesDetailsCollectionView.dataSource = self
+        leaguesDetailsCollectionView.delegate = self
+        leaguesDetailsCollectionView.register(TeamsCollectionViewCell.self, forCellWithReuseIdentifier: TeamsCollectionViewCell.reuseID)
+        view.addSubview(leaguesDetailsCollectionView)
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 8),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            leaguesDetailsCollectionView.topAnchor.constraint(equalTo: leaguesDetailsNameLabel.bottomAnchor, constant: 8),
+            leaguesDetailsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            leaguesDetailsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            leaguesDetailsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
         view.backgroundColor = .systemBackground
@@ -110,13 +108,13 @@ extension LeaguesDetailsViewController: LeaguesDetailsViewControllerInterface {
 extension LeaguesDetailsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return selectedLeague.first?.league?.standings?.first?.count ?? 0
+        return inLeague.first?.league?.standings?.first?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TeamsCollectionViewCell.reuseID, for: indexPath) as! TeamsCollectionViewCell
-        if let standing = selectedLeague.first?.league?.standings?.first?[indexPath.item] {
-            cell.setCell(
+        if let standing = inLeague.first?.league?.standings?.first?[indexPath.item] {
+            cell.setTeamsCell(
                 rank: standing.rank!,
                 teamImage: standing.team?.id ?? 0,
                 teamName: standing.team?.name ?? "nil",
@@ -130,25 +128,25 @@ extension LeaguesDetailsViewController: UICollectionViewDataSource {
         return cell
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let teamID = selectedLeague.first?.league?.standings?.first?[indexPath.item].team?.id {
-            print(teamID)
+        if let selectedTeamId = inLeague.first?.league?.standings?.first?[indexPath.item].team?.id {
+            print(selectedTeamId)
         }
     }
 }
 
-extension LeaguesDetailsViewController {
-    func setupFavoriteButton() {
-        let favoriteButton = UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: #selector(favoriteButtonTapped))
-        navigationItem.rightBarButtonItem = favoriteButton
-    }
-    
-    @objc func favoriteButtonTapped() {
-        guard let modelLeague = selectedLeague.first?.league else {
-            return print("error")
-        }
-        print("Tapped")
-    }
-}
-
+/*
+ extension LeaguesDetailsViewController {
+ func setupFavoriteButton() {
+ let favoriteButton = UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: #selector(favoriteButtonTapped))
+ navigationItem.rightBarButtonItem = favoriteButton
+ }
+ 
+ @objc func favoriteButtonTapped() {
+ guard let modelLeague = inLeague.first?.league else {
+ return print("error")
+ }
+ print("Tapped")
+ }
+ }
+ */

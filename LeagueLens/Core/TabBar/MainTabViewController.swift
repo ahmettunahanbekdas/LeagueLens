@@ -14,23 +14,15 @@ class MainTabViewController: UITabBarController {
         
         print("Run App")
         
-        // TabBar Views atandı.
-        let vc1 = UINavigationController(rootViewController: LeaguesViewController())
-        let vc2 = UINavigationController(rootViewController: FavoritesViewController())
+        let viewControllerOne = UINavigationController(rootViewController: LeaguesViewController())
+        let viewControllerOneTwo = UINavigationController(rootViewController: FavoritesLeaguesViewController())
         
-        // TabBar Images eklendi.
-        vc1.tabBarItem.image = UIImage(systemName: "soccerball.inverse")
-        vc2.tabBarItem.image = UIImage(systemName: "heart.fill")
+        viewControllerOne.tabBarItem.image = UIImage(systemName: "soccerball.inverse")
+        viewControllerOneTwo.tabBarItem.image = UIImage(systemName: "heart.fill")
+                
+        viewControllerOne.title = "Leagues"
+        viewControllerOneTwo.title = "Favorites"
         
-       //tabBar.tintColor = .label
-       //tabBar.backgroundColor = .systemGray3
-        
-        // TabBar Title.
-        vc1.title = "Leagues"
-        vc2.title = "Favorites"
-        
-        // TabBar'a set edildi.
-        setViewControllers([vc1, vc2] , animated: true)
-        
+        setViewControllers([viewControllerOne, viewControllerOneTwo] , animated: true)
     }
 }

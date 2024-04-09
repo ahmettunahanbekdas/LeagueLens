@@ -1,9 +1,3 @@
-//
-//  SearchResultViewModel.swift
-//  LeagueLens
-//
-//  Created by Ahmet Tunahan Bekdaş on 8.04.2024.
-//
 
 import Foundation
 
@@ -14,10 +8,9 @@ protocol SearchResultViewModelInterface {
 
 final class SearchResultViewModel {
     weak var view: SearchResultViewControllerInterface?
-    var leagues: [ResponseLeague] = []
+    var searchLeagues: [ResponseLeague] = []
 
 }
-
 
 extension SearchResultViewModel: SearchResultViewModelInterface {
     func viewDidLoad() {

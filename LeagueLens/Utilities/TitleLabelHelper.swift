@@ -1,13 +1,7 @@
-//
-//  LLTitleLabel.swift
-//  LeagueLens
-//
-//  Created by Ahmet Tunahan Bekdaş on 2.04.2024.
-//
 
 import UIKit
 
-final class LLTitleLabel: UILabel {
+final class TitleLabelHelper: UILabel {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
