@@ -15,6 +15,7 @@ enum APIUrls {
             "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
         ]
     }
+    
     static func urlAllLeagues() -> String {
         return "https://api-football-v1.p.rapidapi.com/v3/leagues"
     }
@@ -37,6 +38,10 @@ enum APIUrls {
     
     static func teamsDetail(id: Int) -> String {
         return "https://api-football-v1.p.rapidapi.com/v3/teams?id=\(id)"
+    }
+    
+    static func searchLeague(with query: String) -> String {
+        return "https://api-football-v1.p.rapidapi.com/v3/leagues?search=\(query)"
     }
     
     

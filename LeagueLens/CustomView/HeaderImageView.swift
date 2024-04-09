@@ -13,14 +13,12 @@ final class HeaderImageView: UIImageView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        //translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
     
     func detailDownloadLeaguesImage(league: LeagueStanding) {
         guard let url = URL(string: APIUrls.LeaguesImages(id: league.league!._id)) else { return }
