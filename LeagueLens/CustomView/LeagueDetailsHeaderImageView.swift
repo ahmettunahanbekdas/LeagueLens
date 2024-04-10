@@ -15,7 +15,7 @@ final class LeagueDetailsHeaderImageView: UIImageView {
     }
     
     func detailDownloadLeaguesImage(league: LeagueStanding) {
-        guard let url = URL(string: APIurls.allLeaguesPosterImageView(id: league.league!._id)) else { return }
+        guard let url = URL(string: APIurls.leaguesPosterImageView(id: league.league!._id)) else { return }
         URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
             guard let self = self else { return }
             if let error = error {

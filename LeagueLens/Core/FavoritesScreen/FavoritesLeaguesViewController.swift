@@ -4,6 +4,8 @@ import UIKit
 protocol FavoritesLeaguesViewControllerInterface: AnyObject {
     func configureFavoritesLeaguesView()
     func reloadData()
+    func navigationDetailsLeagues(leagueDetails: [LeagueStanding]) 
+
 }
 
 class FavoritesLeaguesViewController: UIViewController {
@@ -46,6 +48,18 @@ extension FavoritesLeaguesViewController: FavoritesLeaguesViewControllerInterfac
         favoritesLeaguesTableView.delegate = self
         favoritesLeaguesTableView.dataSource = self
     }
+    
+    func navigationDetailsLeagues(leagueDetails: [LeagueStanding]) {
+        DispatchQueue.main.async {
+            guard !leagueDetails.isEmpty else {
+                MakeAlertHelper.alertMassage(title: "League Detail Not Found", message: "Continue For Other Leagues", style: .alert, vc: self)
+                return
+            }
+            let detailsLeague = LeaguesDetailsViewController(selectedLeague: leagueDetails)
+            self.navigationController?.pushViewController(detailsLeague, animated: true)
+        }
+    }
+    
 }
 
 extension FavoritesLeaguesViewController: UITableViewDelegate, UITableViewDataSource {
@@ -77,9 +91,9 @@ extension FavoritesLeaguesViewController: UITableViewDelegate, UITableViewDataSo
                 }
                 switch results {
                 case .success():
-                    MakeAlertHelper.alertMassage(title: "League Deleted", message: "Okay", style: .actionSheet, vc: self)
+                    MakeAlertHelper.alertMassage(title: "League Deleted", message: " ", style: .actionSheet, vc: self)
                 case.failure(_):
-                    MakeAlertHelper.alertMassage(title: "League Not Deleted", message: "Okay", style: .actionSheet, vc: self)
+                    MakeAlertHelper.alertMassage(title: "League Not Deleted", message: " ", style: .actionSheet, vc: self)
                 }
                 viewModel.favoritesLeagues.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
@@ -87,5 +101,9 @@ extension FavoritesLeaguesViewController: UITableViewDelegate, UITableViewDataSo
         default :
             break;
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.didSelectedFavoritesLeagueDeatil(id: Int(viewModel.favoritesLeagues[indexPath.row].id))
     }
 }

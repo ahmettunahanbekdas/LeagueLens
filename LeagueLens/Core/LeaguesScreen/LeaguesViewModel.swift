@@ -4,25 +4,24 @@ import Foundation
 protocol LeaguesViewModelInterface {
     var view: LeaguesViewControllerInterface? {get set}
     func viewDidLoad()
-    func getAllLeagues()
+    func getLeagues()
     func didSelectedLeaguesDetail(id: Int)
 }
 
 final class LeaguesViewModel {
     weak var view: LeaguesViewControllerInterface?
-    
     private let services = Services()
     var leagues: [ResponseLeague] = []
 }
 
 extension LeaguesViewModel: LeaguesViewModelInterface {
     func viewDidLoad() {
-        view?.configureAllLeaguesView()
-        getAllLeagues()
+        view?.configureLeaguesView()
+        getLeagues()
     }
     
-    func getAllLeagues() {
-        services.downloadAllLeagues { [weak self] returnedLeagues in
+    func getLeagues() {
+        services.downloadLeagues { [weak self] returnedLeagues in
             guard let self = self else {
                 print("Error")
                 return

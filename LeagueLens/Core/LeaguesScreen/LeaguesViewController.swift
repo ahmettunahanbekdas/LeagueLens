@@ -2,7 +2,7 @@
 import UIKit
 
 protocol LeaguesViewControllerInterface: AnyObject {
-    func configureAllLeaguesView()
+    func configureLeaguesView()
     func reloadData()
     func navigationToDetailsLeagues(leagueDetails: [LeagueStanding])
 }
@@ -11,9 +11,9 @@ class LeaguesViewController: UIViewController {
     
     private let viewModel = LeaguesViewModel()
     private let services = Services()
-    var allLeaguescollectionView: UICollectionView!
+    var leaguescollectionView: UICollectionView!
     
-    private let searchAllLeaguesController: UISearchController = {
+    private let searchLeaguesController: UISearchController = {
         let controller = UISearchController(searchResultsController: SearchResultViewController())
         controller.searchBar.placeholder = "Search League"
         controller.searchBar.searchBarStyle = .prominent
@@ -28,26 +28,26 @@ class LeaguesViewController: UIViewController {
 }
 
 extension LeaguesViewController: LeaguesViewControllerInterface {
-    func configureAllLeaguesView() {
-        configureAllLeaguesCollectionView()
-        navigationItem.searchController = searchAllLeaguesController
+    func configureLeaguesView() {
+        configureLeaguesCollectionView()
+        navigationItem.searchController = searchLeaguesController
         navigationItem.hidesSearchBarWhenScrolling = true
         navigationController?.navigationBar.tintColor = .label
-        searchAllLeaguesController.searchResultsUpdater = self
+        searchLeaguesController.searchResultsUpdater = self
     }
     
     func reloadData() {
         DispatchQueue.main.async {
-            self.allLeaguescollectionView.reloadData()
+            self.leaguescollectionView.reloadData()
         }
     }
     
-    func configureAllLeaguesCollectionView() {
-        allLeaguescollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createCollectionViewFlowLayout())
-        allLeaguescollectionView.dataSource = self
-        allLeaguescollectionView.delegate = self
-        allLeaguescollectionView.register(LeaguesCollectionViewCell.self, forCellWithReuseIdentifier: LeaguesCollectionViewCell.reuseID)
-        view.addSubview(allLeaguescollectionView)
+    func configureLeaguesCollectionView() {
+        leaguescollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createCollectionViewFlowLayout())
+        leaguescollectionView.dataSource = self
+        leaguescollectionView.delegate = self
+        leaguescollectionView.register(LeaguesCollectionViewCell.self, forCellWithReuseIdentifier: LeaguesCollectionViewCell.reuseID)
+        view.addSubview(leaguescollectionView)
         view.backgroundColor = .systemBackground
     }
     
@@ -70,7 +70,7 @@ extension LeaguesViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LeaguesCollectionViewCell.reuseID, for: indexPath) as! LeaguesCollectionViewCell
-        cell.allLeagueSetCell(league: viewModel.leagues[indexPath.item])
+        cell.leagueSetCell(league: viewModel.leagues[indexPath.item])
         
         return cell
     }

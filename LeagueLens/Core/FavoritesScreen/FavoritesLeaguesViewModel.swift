@@ -7,8 +7,9 @@ protocol FavoritesViewModelInterface {
 
 final class FavoritesLeaguesViewModel {
     var view: FavoritesLeaguesViewControllerInterface?
-     var favoritesLeagues: [TitleItem] = [TitleItem]()
-
+    var favoritesLeagues: [TitleItem] = [TitleItem]()
+    private let services = Services()
+    
     func viewDidLoad() {
         view?.configureFavoritesLeaguesView()
         fetchLocalStorageForFavorites()
@@ -19,7 +20,7 @@ final class FavoritesLeaguesViewModel {
             self.view?.reloadData()
         }
     }
-
+    
     private func fetchLocalStorageForFavorites() {
         DataPersistenceManager.shared.fetchingFavoritesLeaguesFromDataBase { [weak self] result in
             switch result {
@@ -28,6 +29,20 @@ final class FavoritesLeaguesViewModel {
             case .failure(_):
                 print("Error")
             }
+        }
+    }
+    
+    func didSelectedFavoritesLeagueDeatil(id: Int) {
+        services.downloadLeaguesDetails(id: id) { [weak self] returned in
+            guard let self = self else {
+                print("didSelectedFavoritesLeagueDeatil self Error")
+                return
+            }
+            guard let returnFavoritesLeague = returned else {
+                print("didSelectedFavoritesLeagueDeatil returned Error")
+                return
+            }
+            self.view?.navigationDetailsLeagues(leagueDetails: returnFavoritesLeague)
         }
     }
 }

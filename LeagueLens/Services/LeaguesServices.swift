@@ -3,9 +3,9 @@ import Foundation
 
 class Services {
     
-    func downloadAllLeagues(completion: @escaping ([ResponseLeague]?) -> ()) {
+    func downloadLeagues(completion: @escaping ([ResponseLeague]?) -> ()) {
         let headers = APIurls.APIKey()
-        guard let url = URL(string: APIurls.allLeagues()) else {
+        guard let url = URL(string: APIurls.leagues()) else {
             print("Football API URL Error")
             completion(nil)
             return
@@ -14,7 +14,7 @@ class Services {
             guard let self = self else { return }
             switch result {
             case .success(let data):
-                completion(self.handleWithAllLeagues(data))
+                completion(self.handleWithLeagues(data))
             case .failure(let error):
                 print("Failed to download leagues data")
                 self.handleWithError(error)
@@ -22,7 +22,7 @@ class Services {
         }
     }
     
-    func handleWithAllLeagues(_ data: Data) -> [ResponseLeague]? {
+    func handleWithLeagues(_ data: Data) -> [ResponseLeague]? {
         do {
             let leagues = try JSONDecoder().decode(LeaguesAPI.self, from: data)
             return leagues.response

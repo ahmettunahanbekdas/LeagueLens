@@ -11,9 +11,9 @@ final class LeagueDownloadPosterImageView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func allLeagueDownloadLogo(league: ResponseLeague) {
+    func leagueDownloadLogo(league: ResponseLeague) {
         let headers = APIurls.APIKey()
-        guard let url = URL(string: APIurls.allLeaguesPosterImageView(id: league.league!._id)) else {return}
+        guard let url = URL(string: APIurls.leaguesPosterImageView(id: league.league!._id)) else {return}
         
         dataTask = NetworkManager.shared.download(url: url, headers: headers , completion: { [weak self] result in
             guard let self = self else {return}
@@ -30,7 +30,7 @@ final class LeagueDownloadPosterImageView: UIImageView {
     
     func favoriteLeagueDownloadLogo(league: TitleItem) {
         let headers = APIurls.APIKey()
-        guard let url = URL(string: APIurls.allLeaguesPosterImageView(id: Int(league.id))) else {return}
+        guard let url = URL(string: APIurls.leaguesPosterImageView(id: Int(league.id))) else {return}
         
         dataTask = NetworkManager.shared.download(url: url, headers: headers , completion: { [weak self] result in
             guard let self = self else {return}

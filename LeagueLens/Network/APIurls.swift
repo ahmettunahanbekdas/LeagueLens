@@ -9,11 +9,11 @@ enum APIurls {
         ]
     }
     
-    static func allLeagues() -> String {
+    static func leagues() -> String {
         return "https://api-football-v1.p.rapidapi.com/v3/leagues"
     }
         
-    static func allLeaguesPosterImageView(id: Int) -> String {
+    static func leaguesPosterImageView(id: Int) -> String {
         return "https://media.api-sports.io/football/leagues/\(id).png"
     }
     

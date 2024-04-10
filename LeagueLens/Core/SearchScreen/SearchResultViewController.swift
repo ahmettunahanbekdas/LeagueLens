@@ -55,7 +55,7 @@ extension SearchResultViewController: UICollectionViewDelegate, UICollectionView
         }
         cell.backgroundColor = .systemRed
         let league = searchLeagues[indexPath.row]
-        cell.allLeagueSetCell(league: league)
+        cell.leagueSetCell(league: league)
       return cell
     }
 
