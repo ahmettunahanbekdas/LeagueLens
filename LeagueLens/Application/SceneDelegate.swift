@@ -14,4 +14,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible() // Oluşturulan UIWindow anahtar (key) yapılır ve görünür hale getirilir.
     }
 }
-

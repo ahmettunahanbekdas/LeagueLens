@@ -33,10 +33,10 @@ class LeaguesCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func allLeagueSetCell(league: ResponseLeague) {
+    func leagueSetCell(league: ResponseLeague) {
         self.league = league
         selectedLeague = league
-        leaguePoster.allLeagueDownloadLogo(league: league)
+        leaguePoster.leagueDownloadLogo(league: league)
         leagueNameLabel.text = league.league?.name
     }
     
@@ -46,11 +46,7 @@ class LeaguesCollectionViewCell: UICollectionViewCell {
             print("Error: No league selected")
             return
         }
-        DataPersistenceManager.shared.saveLeaguesFavoritesFromDatabase(model: selectedLeague) { [weak self] result in
-            guard let self = self else {
-                print("favoriteButtonTapped error")
-                return
-            }
+        DataPersistenceManager.shared.saveLeaguesFavoritesFromDatabase(model: selectedLeague) { result in
             switch result {
             case .success():
                 print("League saved successfully")

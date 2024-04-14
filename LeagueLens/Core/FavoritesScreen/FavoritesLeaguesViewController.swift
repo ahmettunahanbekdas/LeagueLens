@@ -4,11 +4,13 @@ import UIKit
 protocol FavoritesLeaguesViewControllerInterface: AnyObject {
     func configureFavoritesLeaguesView()
     func reloadData()
+    func navigationFavoritesToDetailsLeagues(leagueDetails: [LeagueStanding])
+    
 }
 
 class FavoritesLeaguesViewController: UIViewController {
     private let viewModel = FavoritesLeaguesViewModel()
-    
+    var leaguesItem = [TitleItem]()
     
     let favoritesLeaguesTableView: UITableView = {
         let tableView = UITableView()
@@ -24,7 +26,6 @@ class FavoritesLeaguesViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.view = self
         viewModel.viewWillAppear()
     }
     
@@ -45,6 +46,17 @@ extension FavoritesLeaguesViewController: FavoritesLeaguesViewControllerInterfac
         favoritesLeaguesTableView.frame = view.bounds
         favoritesLeaguesTableView.delegate = self
         favoritesLeaguesTableView.dataSource = self
+    }
+    
+    func navigationFavoritesToDetailsLeagues(leagueDetails: [LeagueStanding]) {
+        DispatchQueue.main.async {
+            guard !leagueDetails.isEmpty else {
+                MakeAlertHelper.alertMassage(title: "League Detail Not Found", message: "Continue For Other Leagues", style: .alert, vc: self)
+                return
+            }
+            let detailsLeague = LeaguesDetailsViewController(selectedLeague: leagueDetails)
+            self.navigationController?.pushViewController(detailsLeague, animated: true)
+        }
     }
 }
 
@@ -70,22 +82,15 @@ extension FavoritesLeaguesViewController: UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
-            DataPersistenceManager.shared.deleteFavoritesLeaguFromDatabase(model: viewModel.favoritesLeagues[indexPath.row]) { [weak self] results in
-                guard let self = self else {
-                    print("delete self Error")
-                    return
-                }
-                switch results {
-                case .success():
-                    MakeAlertHelper.alertMassage(title: "League Deleted", message: "Okay", style: .actionSheet, vc: self)
-                case.failure(_):
-                    MakeAlertHelper.alertMassage(title: "League Not Deleted", message: "Okay", style: .actionSheet, vc: self)
-                }
-                viewModel.favoritesLeagues.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
-            }
+            let selectedForDeleteLeague = viewModel.favoritesLeagues[indexPath.row]
+            viewModel.deleteFavoritesItem = selectedForDeleteLeague
+            viewModel.deleteFavoritesLeague()
         default :
             break;
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.didSelectedFavoritesLeagueDeatil(id: Int(viewModel.favoritesLeagues[indexPath.row].id))
     }
 }

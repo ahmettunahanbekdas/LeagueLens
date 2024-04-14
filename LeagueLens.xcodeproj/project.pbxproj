@@ -202,8 +202,8 @@
 				0E47DF422BBE8FCC00E8384A /* TeamsCollectionViewCell.swift */,
 				0E4E316F2BC5639A00917D54 /* FavoritesCollectionViewCell.swift */,
 				0ED37EAE2BBAA02D00E3B55F /* LeagueDownloadPosterImageView.swift */,
-				0E47DF442BBE969D00E8384A /* TeamsDownloadPosterImageView.swift */,
 				0E9AFB5C2BC13D42004C22C2 /* LeagueDetailsHeaderImageView.swift */,
+				0E47DF442BBE969D00E8384A /* TeamsDownloadPosterImageView.swift */,
 				0E9AFB522BC1132C004C22C2 /* CountryFlagImageView.swift */,
 			);
 			path = CustomView;

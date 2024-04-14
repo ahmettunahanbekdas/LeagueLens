@@ -71,13 +71,15 @@ extension LeaguesDetailsViewController: LeaguesDetailsViewControllerInterface {
         leaguesDetailsNameLabel.textColor = .label
         leaguesDetailsNameLabel.translatesAutoresizingMaskIntoConstraints = false
         leaguesDetailsNameLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        leaguesDetailsNameLabel.isHidden = true
         view.addSubview(leaguesDetailsNameLabel)
         
+        
         NSLayoutConstraint.activate([
-            leaguesDetailsLogoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            leaguesDetailsLogoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: deviceWidth / 10),
             leaguesDetailsLogoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: deviceWidth / 5),
             leaguesDetailsLogoImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -deviceWidth / 5),
-            leaguesDetailsLogoImageView.heightAnchor.constraint(equalToConstant: deviceHeight / 6),
+            leaguesDetailsLogoImageView.heightAnchor.constraint(equalToConstant: deviceHeight / 5),
             
             leaguesDetailsNameLabel.topAnchor.constraint(equalTo: leaguesDetailsLogoImageView.bottomAnchor, constant: 8),
             leaguesDetailsNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -95,7 +97,7 @@ extension LeaguesDetailsViewController: LeaguesDetailsViewControllerInterface {
         view.addSubview(leaguesDetailsCollectionView)
         
         NSLayoutConstraint.activate([
-            leaguesDetailsCollectionView.topAnchor.constraint(equalTo: leaguesDetailsNameLabel.bottomAnchor, constant: 8),
+            leaguesDetailsCollectionView.topAnchor.constraint(equalTo: leaguesDetailsNameLabel.bottomAnchor),
             leaguesDetailsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             leaguesDetailsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             leaguesDetailsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -134,19 +136,3 @@ extension LeaguesDetailsViewController: UICollectionViewDataSource {
         }
     }
 }
-
-/*
- extension LeaguesDetailsViewController {
- func setupFavoriteButton() {
- let favoriteButton = UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: #selector(favoriteButtonTapped))
- navigationItem.rightBarButtonItem = favoriteButton
- }
- 
- @objc func favoriteButtonTapped() {
- guard let modelLeague = inLeague.first?.league else {
- return print("error")
- }
- print("Tapped")
- }
- }
- */
