@@ -43,7 +43,6 @@ class Services {
             guard let self = self else {return}
             switch leagueTeams {
             case .success(let data):
-                print(url)
                 completion(self.hanfleWithDownloadLeaguesDetails(data))
             case .failure(let error):
                 print("Failed to download downloadLeaguesTeams \(error)")

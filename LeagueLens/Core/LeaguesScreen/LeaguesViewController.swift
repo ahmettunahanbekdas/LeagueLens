@@ -112,18 +112,3 @@ extension LeaguesViewController: UISearchResultsUpdating {
         }
     }
 }
-
-//func getLeagues() {
-//    services.downloadLeagues { [weak self] returnedLeagues in
-//        guard let self = self else {
-//            print("Error")
-//            return
-//        }
-//        guard let returnedLeagues = returnedLeagues else {
-//            print("returnedLeagues")
-//            return
-//        }
-//        self.leagues.append(contentsOf: returnedLeagues)
-//        self.view?.reloadData()
-//    }
-//}
