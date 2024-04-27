@@ -115,7 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				0E13BA4E2BB700340012991D /* LeagueLens */,
-				0E60817A2BD7CD8700C7A420 /* LeagueLensUITests */,
+				0E60817A2BD7CD8700C7A420 /* LeagueLensTests */,
 				0E13BA4D2BB700340012991D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -160,13 +160,13 @@
 			path = CustomView;
 			sourceTree = "<group>";
 		};
-		0E60817A2BD7CD8700C7A420 /* LeagueLensUITests */ = {
+		0E60817A2BD7CD8700C7A420 /* LeagueLensTests */ = {
 			isa = PBXGroup;
 			children = (
 				0E60817B2BD7CD8700C7A420 /* LeagueLensUITests.swift */,
 				0E60817D2BD7CD8700C7A420 /* LeagueLensUITestsLaunchTests.swift */,
 			);
-			path = LeagueLensUITests;
+			path = LeagueLensTests;
 			sourceTree = "<group>";
 		};
 		0E9383832BBAE83A00CCE228 /* Extension */ = {
