@@ -4,9 +4,8 @@ import Foundation
 final class NetworkManager {
     static let shared = NetworkManager()
     private init() {}
-    @discardableResult
-
-    func download(url: URL, headers: [String: String], completion: @escaping(Result<Data, Error>) -> ()) -> URLSessionDataTask {
+    
+ func download(url: URL, headers: [String: String], completion: @escaping(Result<Data, Error>) -> Void) {
         var request = URLRequest(url: url)
         for (key, value) in headers {
             request.setValue(value, forHTTPHeaderField: key)
@@ -32,7 +31,8 @@ final class NetworkManager {
 
         }
         dataTask.resume()
-        
-        return dataTask
     }
 }
+
+
+

@@ -12,10 +12,10 @@ final class LeagueDownloadPosterImageView: UIImageView {
     }
     
     func leagueDownloadLogo(league: ResponseLeague) {
-        let headers = APIurls.APIKey()
-        guard let url = URL(string: APIurls.leaguesPosterImageView(id: league.league!._id)) else {return}
+        let headers = Endpoint.APIKey()
+        guard let url = URL(string: Endpoint.leaguesPosterImageView(id: league.league?.id ?? 0)) else {return}
         
-        dataTask = NetworkManager.shared.download(url: url, headers: headers , completion: { [weak self] result in
+        NetworkManager.shared.download(url: url, headers: headers , completion: { [weak self] result in
             guard let self = self else {return}
             switch result {
             case .success(let data):
@@ -29,10 +29,10 @@ final class LeagueDownloadPosterImageView: UIImageView {
     }
     
     func favoriteLeagueDownloadLogo(league: TitleItem) {
-        let headers = APIurls.APIKey()
-        guard let url = URL(string: APIurls.leaguesPosterImageView(id: Int(league.id))) else {return}
+        let headers = Endpoint.APIKey()
+        guard let url = URL(string: Endpoint.leaguesPosterImageView(id: Int(league.id))) else {return}
         
-        dataTask = NetworkManager.shared.download(url: url, headers: headers , completion: { [weak self] result in
+         NetworkManager.shared.download(url: url, headers: headers , completion: { [weak self] result in
             guard let self = self else {return}
             switch result {
             case .success(let data):
