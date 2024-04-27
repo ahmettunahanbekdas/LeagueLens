@@ -1,9 +1,10 @@
 import UIKit
 
 class LeaguesCollectionViewCell: UICollectionViewCell {
-    
+
+    weak var vc: LeaguesViewController?
+    weak var searchVC: SearchResultViewController?
     static let reuseID = "LeaguesCell"
-    
     private var league: ResponseLeague!
     private var selectedLeague: ResponseLeague!
     private let leagueNameLabel = TitleLabelHelper(fontSize: 20)
@@ -40,16 +41,20 @@ class LeaguesCollectionViewCell: UICollectionViewCell {
         leagueNameLabel.text = league.league?.name
     }
     
-    
     @objc private func favoriteButtonTapped() {
         guard let selectedLeague = selectedLeague else {
             print("Error: No league selected")
             return
         }
-        DataPersistenceManager.shared.saveLeaguesFavoritesFromDatabase(model: selectedLeague) { result in
+        DataPersistenceManager.shared.saveLeaguesFavoritesFromDatabase(model: selectedLeague) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success():
-                print("League saved successfully")
+                if let viewController = self.vc {
+                    MakeAlertHelper.alertMassage(action: "Okay", title: "Success", message: "League Added Favorites", style: .alert, vc: viewController)
+                } else {
+                    MakeAlertHelper.alertMassage(action: "Okay", title: "Success", message: "League Added Favorites", style: .alert, vc: self.searchVC!)
+                }
             case .failure(let error):
                 print("Error saving league: \(error)")
             }
@@ -57,7 +62,6 @@ class LeaguesCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureCell() {
-        
         addSubview(leaguePoster)
         addSubview(leagueNameLabel)
         addSubview(addFavoriteLeagueButtonTapped)
@@ -86,3 +90,53 @@ class LeaguesCollectionViewCell: UICollectionViewCell {
         layer.cornerRadius = 16
     }
 }
+
+
+/*
+ @objc private func favoriteButtonTapped() {
+     guard let selectedLeague = selectedLeague else {
+         print("Error: No league selected")
+         return
+     }
+     
+     isFavorite.toggle()
+     
+     // Favori durumuna göre yıldız butonunun görünümünü değiştir
+     let starImage = isFavorite ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
+     addFavoriteLeagueButtonTapped.setImage(starImage, for: .normal)
+     
+     // Favori ekleme veya silme işlemini gerçekleştir
+     if isFavorite {
+         // Favoriye ekleme işlemi
+         DataPersistenceManager.shared.saveLeaguesFavoritesFromDatabase(model: selectedLeague) { result in
+             switch result {
+             case .success():
+                 print("League saved successfully")
+             case .failure(let error):
+                 print("Error saving league: \(error)")
+             }
+         }
+     } else {
+         // Favoriden çıkarma işlemi
+         DataPersistenceManager.shared.fetchingFavoritesLeaguesFromDataBase { result in
+             switch result {
+             case .success(let favoriteLeagues):
+                 // Favori ligler arasında seçilen ligi bul
+                 if let favoriteLeague = favoriteLeagues.first(where: { $0.id == selectedLeague.league?.id ?? 0}) {
+                     // Lig bulundu, favorilerden çıkar
+                     DataPersistenceManager.shared.deleteFavoritesLeaguFromDatabase(model: favoriteLeague) { result in
+                         switch result {
+                         case .success():
+                             print("League removed from favorites successfully")
+                         case .failure(let error):
+                             print("Error removing league from favorites: \(error)")
+                         }
+                     }
+                 }
+             case .failure(let error):
+                 print("Error fetching favorite leagues: \(error)")
+             }
+         }
+     }
+ }
+ */

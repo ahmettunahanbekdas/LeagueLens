@@ -29,6 +29,41 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0ED3686D2BCC8F56002092ED"
+               BuildableName = "LeagueLensTests.xctest"
+               BlueprintName = "LeagueLensTests"
+               ReferencedContainer = "container:LeagueLens.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0E6081782BD7CD8700C7A420"
+               BuildableName = "LeagueLensUITests.xctest"
+               BlueprintName = "LeagueLensUITests"
+               ReferencedContainer = "container:LeagueLens.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0EDD9B692BD7C19500DE9E0B"
+               BuildableName = "LeagueLensUITestss.xctest"
+               BlueprintName = "LeagueLensUITestss"
+               ReferencedContainer = "container:LeagueLens.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"

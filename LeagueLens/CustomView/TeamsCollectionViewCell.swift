@@ -2,6 +2,7 @@
 import UIKit
 
 final class TeamsCollectionViewCell: UICollectionViewCell {
+    
     static let reuseID = "TeamsCell"
     
     private var teams:  LeagueStanding!
@@ -122,7 +123,6 @@ final class TeamsCollectionViewCell: UICollectionViewCell {
             teamsFormLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding/80),
             teamsFormLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
-        
         layer.borderColor = UIColor.secondaryLabel.cgColor
         layer.borderWidth = 2
         layer.cornerRadius = 10

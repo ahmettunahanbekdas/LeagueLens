@@ -3,12 +3,10 @@ import Foundation
 
 struct LeaguesAPI: Codable {
     var get: String?
-    //var parameters: [Parameters]?
     var response: [ResponseLeague]?
 
     enum CodingKeys: String, CodingKey {
         case get = "get"
-        //case parameters , response
         case response
     }
 }
@@ -33,3 +31,7 @@ struct League: Codable {
         id ?? Int.min
     }
 }
+
+
+
+
