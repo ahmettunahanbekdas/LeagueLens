@@ -39,7 +39,7 @@ https://github.com/ahmettunahanbekdas/LeagueLens/assets/97003033/83bd97fd-7f64-4
 ## :camera: Screenshots
 
 <p float="left">
-<img width="240" src="/Screenshot/ss1.png">
+<img width="240" src="/ScreenShot/ss1.png">
 <img width="240" src="/screenshots/ss2.png">
 <img width="240" src="/screenshots/ss3.png">
 <img width="240" src="/screenshots/ss4.png">
