@@ -1,8 +1,12 @@
 # LeagueLensApp
  
-This app is a video game discovery and search app. With this app you can discover games, search for them, see their details and save your favorite games to your favorites list. I tried to write clean code using protocols. I paid attention for retain cycle and memory management. I prevented crashing app by warning the user when there were connection problems. You can see the details, video and screenshots below.
+On the home page, users can view a list of various leagues. From here, they can click on the league they are interested in to access detailed information.
+On the detail page, users can view the details of the selected league and add it to their favorites if necessary. This way, they can easily follow their favorite leagues.
+Thanks to the search feature, users can quickly find the league they want and add it to their favorites. Similarly, they can easily access the detail page.
+Favorite leagues are saved to the database using Core Data. This way, users can keep and manage their favorite leagues on any device.
+On the favorite page, users can view the leagues they want and remove any league they desire from both the database and the screen. This way, they can easily organize their favorite leagues.
 
-## :nut_and_bolt: Key Features
+##  Key Features
 
 **Architecture:** MVVM 
 MVVM (Model-View-ViewModel) is an architectural design pattern in software development, dividing applications into three key components:
@@ -18,7 +22,7 @@ MVVM (Model-View-ViewModel) is an architectural design pattern in software devel
 
 **Database:** CoreData 
 
-## :magic_wand: Components
+##  Components
 
 ### Structure
 - Memory Management 
