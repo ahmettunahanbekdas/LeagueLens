@@ -34,12 +34,12 @@ This app is a video game discovery and search app. With this app you can discove
  
 ## :movie_camera: Video
 
-https://github.com/oemurlu/Video-Games-App-MVVM-ProgrammaticUI/assets/102610734/039f3384-7143-47f4-8d78-de7f0891a6d2
+https://github.com/ahmettunahanbekdas/LeagueLens/assets/97003033/83bd97fd-7f64-4928-9fcd-fe4b433af327
 
 ## :camera: Screenshots
 
 <p float="left">
-<img width="240" src="/screenshots/ss1.png">
+<img width="240" src="![ss1](https://github.com/ahmettunahanbekdas/LeagueLens/assets/97003033/5acf5ec8-8a8a-4d0a-a38a-db898cfabac9)">
 <img width="240" src="/screenshots/ss2.png">
 <img width="240" src="/screenshots/ss3.png">
 <img width="240" src="/screenshots/ss4.png">
@@ -48,3 +48,7 @@ https://github.com/oemurlu/Video-Games-App-MVVM-ProgrammaticUI/assets/102610734/
 <img width="240" src="/screenshots/ss7.png">
 <img width="240" src="/screenshots/ss8.png">
 </p>
+
+
+
+
