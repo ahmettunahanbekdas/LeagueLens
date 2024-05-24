@@ -27,9 +27,11 @@ MVVM (Model-View-ViewModel) is an architectural design pattern in software devel
 ### Structure
 - Memory Management 
 - Programmatic UI
+- CoreData
 - No dependency
 - Dispatch Group
 - General Network Layer
+  
 
 ### iOS
 - TableView
@@ -37,6 +39,7 @@ MVVM (Model-View-ViewModel) is an architectural design pattern in software devel
 - TabBar Controller
 - Navigation Controller
 - Alert
+  
  
 ## :movie_camera: Video
 
