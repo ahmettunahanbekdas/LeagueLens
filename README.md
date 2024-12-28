@@ -29,18 +29,7 @@ MVVM (Model-View-ViewModel) is an architectural design pattern in software devel
 - TabBar Controller
 - Navigation Controller
 - Alert
-  
-## :camera: Screenshots
-<p float="left">
-<img width="240" src="/ScreenShot/ss0.png">
-<img width="240" src="/ScreenShot/ss1.png">
-<img width="240" src="/ScreenShot/ss2.png">
-<img width="240" src="/ScreenShot/ss3.png">
-<img width="240" src="/ScreenShot/ss4.png">
-<img width="240" src="/ScreenShot/ss5.png">
-<img width="240" src="/ScreenShot/ss6.png">
-<img width="240" src="/ScreenShot/ss7.png">
-</p>
+
 
 ## :movie_camera: Screen Recording
 https://github.com/ahmettunahanbekdas/LeagueLens/assets/97003033/83bd97fd-7f64-4928-9fcd-fe4b433af327
